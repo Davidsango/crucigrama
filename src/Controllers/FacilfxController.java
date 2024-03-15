@@ -1,3 +1,5 @@
+package Controllers;
+
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.TextField;
@@ -34,9 +36,9 @@ public class FacilfxController{
      */
     private void applyValidationToTextFields(GridPane gridPane) {
         for (Node node : gridPane.getChildren()) {
-            if (node instanceof StackPane) {
-                StackPane stackPane = (StackPane) node;
-                if (!stackPane.getChildren().isEmpty() && stackPane.getChildren().get(0) instanceof TextField) {
+            if (node instanceof StackPane stackPane) {
+                if (!stackPane.getChildren().isEmpty() && stackPane.getChildren().get(0) instanceof TextField)
+                {
                     TextField textField = (TextField) stackPane.getChildren().get(0);
                     applyValidation(textField);
                 }
