@@ -1,4 +1,4 @@
-package Controllers;
+package com.crucigramax.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.Node;
