@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import javafx.beans.value.ObservableValue;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 
@@ -54,6 +55,13 @@ public class FacilfxController{
         textField.textProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
             if (newValue.length() > 1 || (!newValue.isEmpty() && !newValue.matches("[A-Za-z]"))) {
                 textField.setText(oldValue);
+                    // Mostrar un mensaje de error
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error de entrada");
+            alert.setHeaderText(null);
+            alert.setContentText("Por favor, ingrese solo un carácter alfabético.");
+
+            alert.showAndWait();
             }
         });
     }
