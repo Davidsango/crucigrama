@@ -14,9 +14,9 @@ Wilson Soto.
 El objetivo es simple: resolver crucigramas mientras compites por la mejor puntuación. Con tres niveles de dificultad y la capacidad de guardar tus logros,
 prepárate para desafiar tu mente y sumergirte en la diversión de los crucigramas digitales. ¡Que empiece el desafío!
 
-Tecnilogias utilizadas Java, JavaFX y una BD postgresql, el repositorio es GitHub y la herramienta Jira.
+Tecnologías utilizadas Java, JavaFX y una BD postgresql, el repositorio es GitHub y la herramienta Jira.
 
 Manejando patrón en el diseño MVC (Modelo-Vista-Controlador)
 
-Esperemos disfruten nuestro juego. 
+Esperamos disfruten nuestro juego. 
 
