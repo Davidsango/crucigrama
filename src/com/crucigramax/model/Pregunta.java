@@ -4,22 +4,22 @@ import java.util.*;
 /**
  * 
  */
-public class Usuario {
+public class Pregunta {
 
     /**
      * Default constructor
      */
-    public Usuario() {
+    public Pregunta() {
     }
 
     /**
      * 
      */
-    private String nickname;
+    private String enunciado;
 
     /**
      * 
      */
-    private List<Score> puntaje;
+    private String respuesta;
 
 }

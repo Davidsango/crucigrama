@@ -29,7 +29,7 @@ public class App extends Application {
      */
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("/com/crucigramax/fxml/iniciofx"));
+        scene = new Scene(loadFXML("iniciofx"));
         stage.setScene(scene);
         stage.show();
     }
@@ -52,7 +52,7 @@ public class App extends Application {
      * @throws IOException Si ocurre un error al cargar la vista FXML.
      */
     private static Parent loadFXML(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/com/crucigramax/view/" + fxml + ".fxml"));
         return fxmlLoader.load();
     }
 

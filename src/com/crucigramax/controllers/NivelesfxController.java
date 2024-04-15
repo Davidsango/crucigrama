@@ -59,7 +59,7 @@ public class NivelesfxController implements Initializable {
     @FXML
     private void abrirNiveles(String nivel) throws IOException {
         // Establece la vista del nivel especificado
-        App.setRoot("/com/crucigramax/fxml/" + nivel);
+        App.setRoot(nivel);
     }
 
     @Override
