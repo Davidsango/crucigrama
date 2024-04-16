@@ -1,25 +1,59 @@
 package com.crucigramax.model;
-import java.util.*;
 
 /**
- * 
+ * La clase Pregunta representa una pregunta en un crucigrama, que consta de un
+ * enunciado y una respuesta.
  */
 public class Pregunta {
 
+    private String enunciado; // El enunciado de la pregunta
+    private String respuesta; // La respuesta de la pregunta
+
     /**
-     * Default constructor
+     * Constructor de la clase Pregunta.
+     *
+     * @param enunciado El enunciado de la pregunta.
+     * @param respuesta La respuesta de la pregunta.
      */
-    public Pregunta() {
+    public Pregunta(String enunciado, String respuesta) {
+        this.enunciado = enunciado;
+        this.respuesta = respuesta;
     }
 
     /**
-     * 
+     * Obtiene el enunciado de la pregunta.
+     *
+     * @return El enunciado de la pregunta.
      */
-    private String enunciado;
+    public String getEnunciado() {
+        return enunciado;
+    }
 
     /**
-     * 
+     * Establece el enunciado de la pregunta.
+     *
+     * @param enunciado El enunciado de la pregunta a establecer.
      */
-    private String respuesta;
+    public void setEnunciado(String enunciado) {
+        this.enunciado = enunciado;
+    }
+
+    /**
+     * Obtiene la respuesta de la pregunta.
+     *
+     * @return La respuesta de la pregunta.
+     */
+    public String getRespuesta() {
+        return respuesta;
+    }
+
+    /**
+     * Establece la respuesta de la pregunta.
+     *
+     * @param respuesta La respuesta de la pregunta a establecer.
+     */
+    public void setRespuesta(String respuesta) {
+        this.respuesta = respuesta;
+    }
 
 }
