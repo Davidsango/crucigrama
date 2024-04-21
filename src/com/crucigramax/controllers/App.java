@@ -1,6 +1,9 @@
 package com.crucigramax.controllers;
 
+import com.crucigramax.services.Conexion;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.fxml.FXMLLoader;
@@ -60,9 +63,11 @@ public class App extends Application {
      * Método principal de la aplicación.
      *
      * @param args Los argumentos de la línea de comandos.
+     * @throws java.sql.SQLException si ocurre un error al realizar la Conexión con la base de Datos
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         launch();
+        Connection conn = Conexion.conectar();
     }
 
 }
