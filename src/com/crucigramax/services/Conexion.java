@@ -28,7 +28,7 @@ public class Conexion {
         try {
             // Se utiliza el método getConnection() de la clase DriverManager para establecer la conexión
             Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
-            System.out.println("¡Conexión establecida correctamente!");
+            //System.out.println("¡Conexión establecida correctamente!");
             return conn;
         } catch (SQLException e) {
             // En caso de error al conectar, se captura la excepción y se imprime un mensaje de error

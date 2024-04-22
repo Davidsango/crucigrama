@@ -1,26 +1,45 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
- */
 package com.crucigramax.controllers;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-import javafx.fxml.Initializable;
+import com.crucigramax.model.Crucigrama;
+import com.crucigramax.model.Pregunta;
+import java.util.ArrayList;
+import java.util.List;
+import javafx.fxml.FXML;
+import javafx.scene.control.TextArea;
+import javafx.scene.layout.GridPane;
 
-/**
- * FXML Controller class
- *
- * @author a.cardenas
- */
-public class MediofxController implements Initializable {
+public class MediofxController {
+
+    @FXML
+    private GridPane gridPane;
+    @FXML
+    private TextArea cajaPistas;
 
     /**
-     * Initializes the controller class.
+     * Clase controladora FXML.
+     *
+     * Controlador para la vista mediofx.fxml.
+     *
+     * Esta clase controladora inicializa la vista mediofx.fxml, crea un
+     * crucigrama, carga la matriz de caracteres del crucigrama, llena las
+     * listas de enunciados y actualiza los campos de texto en la vista con la
+     * matriz de caracteres y enunciados.
+     *
+     * @author a.cardenas
      */
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
-    
+    public void initialize() {
+        List<Pregunta> preguntas = new ArrayList<>();
+        char[][] matriz = new char[10][10];
+        List<String> listaVerticales = new ArrayList<>(), listaHorizontales = new ArrayList<>();
+
+        Crucigrama crucigrama = new Crucigrama(matriz, preguntas, listaVerticales, listaHorizontales);
+
+        crucigrama.cargarMatriz();
+
+        App.actualizarTextField(crucigrama.getMatriz(), gridPane);
+        App.aplicarValidacionATextFields(gridPane);
+        App.mostrarEnunciados(crucigrama.getListaHorizontales(), crucigrama.getListaVerticales(), cajaPistas);
+
+    }
+
 }

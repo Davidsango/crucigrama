@@ -1,71 +1,45 @@
 package com.crucigramax.controllers;
 
+import com.crucigramax.model.Crucigrama;
+import com.crucigramax.model.Pregunta;
+import java.util.ArrayList;
+import java.util.List;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
-import javafx.scene.control.TextField;
-import javafx.beans.value.ObservableValue;
-import javafx.scene.control.Alert;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
 
-/**
- * FXML Controller class
- *
- * @author a.cardenas
- */
-public class FacilfxController{
-    
+public class FacilfxController {
+
     @FXML
-    private GridPane gridPane; 
-    /**
-     * Referencia al GridPane que contiene todos los recuadros del crucigrama
-     * cada espacio del GridPane contiene un StackPane, que a su vez contiene
-     * un TextField y un label (para poder mostrar el número de filas/columnas)
-     */
+    private GridPane gridPane;
+    @FXML
+    private TextArea cajaPistas;
 
     /**
-     * Inicializa el controlador. Este método se llama automáticamente después de que
-     * se ha cargado el archivo FXML.
+     * Clase controladora FXML.
+     *
+     * Controlador para la vista facilfx.fxml.
+     *
+     * Esta clase controladora inicializa la vista facilfx.fxml, crea un
+     * crucigrama, carga la matriz de caracteres del crucigrama, llena las
+     * listas de enunciados y actualiza los campos de texto en la vista con la
+     * matriz de caracteres y enunciados.
+     *
+     * @author a.cardenas
      */
     public void initialize() {
-        applyValidationToTextFields(gridPane);
+        List<Pregunta> preguntas = new ArrayList<>();
+        char[][] matriz = new char[10][10];
+        List<String> listaVerticales = new ArrayList<>(), listaHorizontales = new ArrayList<>();
+
+        Crucigrama crucigrama = new Crucigrama(matriz, preguntas, listaVerticales, listaHorizontales);
+
+        crucigrama.cargarMatriz();
+
+        App.actualizarTextField(crucigrama.getMatriz(), gridPane);
+        App.aplicarValidacionATextFields(gridPane);
+        App.mostrarEnunciados(crucigrama.getListaHorizontales(), crucigrama.getListaVerticales(), cajaPistas);
+
     }
-
-    /**
-     * Aplica la validación a todos los TextField dentro de un GridPane.
-     * @param gridPane El GridPane que contiene los TextField.
-     */
-    private void applyValidationToTextFields(GridPane gridPane) {
-        for (Node node : gridPane.getChildren()) {
-            if (node instanceof StackPane stackPane) {
-                if (!stackPane.getChildren().isEmpty() && stackPane.getChildren().get(0) instanceof TextField)
-                {
-                    TextField textField = (TextField) stackPane.getChildren().get(0);
-                    applyValidation(textField);
-                }
-            }
-        }
-    }
-
-    /**
-     * Aplica la validación a un TextField para permitir solo un carácter alfabético.
-     * @param textField El TextField que se validará.
-     */
-    private void applyValidation(TextField textField) {
-        textField.textProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
-            if (newValue.length() > 1 || (!newValue.isEmpty() && !newValue.matches("[A-Za-z]"))) {
-                textField.setText(oldValue);
-                    // Mostrar un mensaje de error
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error de entrada");
-            alert.setHeaderText(null);
-            alert.setContentText("Por favor, ingrese solo un carácter alfabético.");
-
-            alert.showAndWait();
-            }
-        });
-    }
-
-    
 
 }

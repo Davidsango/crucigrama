@@ -15,9 +15,9 @@ public class Pregunta {
      * @param enunciado El enunciado de la pregunta.
      * @param respuesta La respuesta de la pregunta.
      */
-    public Pregunta(String enunciado, String respuesta) {
-        this.enunciado = enunciado;
+    public Pregunta(String respuesta, String enunciado) {
         this.respuesta = respuesta;
+        this.enunciado = enunciado;
     }
 
     /**

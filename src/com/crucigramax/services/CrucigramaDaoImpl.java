@@ -9,7 +9,8 @@ import java.sql.ResultSet;
  * Implementación concreta de la interfaz CrucigramaDAO que proporciona métodos para interactuar con la base de datos
  * y obtener información relacionada con crucigramas.
  */
-public class CrucigramaDaoImpl extends Conexion implements CrucigramaDao {
+public class CrucigramaDaoImpl extends Conexion implements CrucigramaDao{
+    
     private Connection connection;
 
     /**
@@ -17,7 +18,7 @@ public class CrucigramaDaoImpl extends Conexion implements CrucigramaDao {
      *
      * @param connection La conexión a la base de datos que se utilizará para ejecutar las consultas.
      */
-    public CrucigramaDaoImpl(Connection connection) {
+    public  CrucigramaDaoImpl(Connection connection) {
         this.connection = connection;
     }
     
@@ -26,10 +27,10 @@ public class CrucigramaDaoImpl extends Conexion implements CrucigramaDao {
      *
      * @return Una cadena que representa el crucigrama cargado.
      */
-    @Override
+    
     public String cargarCrucigramaAleatorio() {
         String datosCrucigrama = null;
-        String query = "SELECT crucigrama FROM preguntas ORDER BY RANDOM() LIMIT 1";
+        String query = "SELECT crucigrama FROM crucigramas ORDER BY RANDOM() LIMIT 1";
         try (PreparedStatement pstmt = connection.prepareStatement(query);
              ResultSet rs = pstmt.executeQuery()) {
             if (rs.next()) {
@@ -47,11 +48,11 @@ public class CrucigramaDaoImpl extends Conexion implements CrucigramaDao {
      * @param respuesta La palabra cuya definición se desea buscar.
      * @return El enunciado de la palabra especificada, o un mensaje de error si la definición no se encuentra.
      */
-    @Override
+    
     public String buscarDefinicion(String respuesta) {
         String enunciado = "Enunciado no encontrada para: " + respuesta;
         respuesta = respuesta.toUpperCase();
-        String query = "SELECT definicion FROM crucigrama WHERE palabra = ?";
+       String query = "SELECT enunciado FROM diccionario WHERE respuesta = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setString(1, respuesta);
             try (ResultSet rs = pstmt.executeQuery()) {
