@@ -1,18 +1,18 @@
-Practica Aplicada
+**Practica Aplicada**
 
-Proyecto:
+**Proyecto:**
 
-Desarrollo de una aplicación de juego de crucigramas utilizando la metodología  ́ágil Scrum.
+- Desarrollo de una aplicación de juego de crucigramas utilizando la metodología  ́ágil Scrum.
 
-Integrantes:
+**Integrantes:**
 
-Daniel Esteban Méndez Díaz
-Andres Enrique Cárdenas Florez
-David Andres Gómez Martinez
+- Daniel Esteban Méndez Díaz
+- Andres Enrique Cárdenas Florez
+- David Andres Gómez Martinez
 
-Docente:
+**Docente:**
 
-Wilson Soto.
+- Wilson Soto.
 
 **CrucigramaX**
 
@@ -27,6 +27,7 @@ Es una aplicación de crucigramas desarrollada en Java con JavaFX. Que permite a
   - IDE de preferencia (Apache Netbeans 17, recomendable)
 
 **Instalación**
+
 Una vez cumplidos los requisitos previos para ejecutar el proyecto desde su máquina local es necesario seguir el siguiente paso:
   - Clonar el repositorio (git clone https://github.com/Davidsango/crucigrama.git)
 
