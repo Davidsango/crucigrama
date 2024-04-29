@@ -1,7 +1,16 @@
 package com.crucigramax.controllers;
 
+import com.crucigramax.model.Crucigrama;
+import com.crucigramax.model.Pregunta;
+import com.crucigramax.services.Conexion;
+import com.crucigramax.services.CrucigramaDaoImpl;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
@@ -41,7 +50,7 @@ public class App extends Application {
         scene = new Scene(loadFXML("iniciofx"));
         stage.setScene(scene);
         stage.setWidth(800);
-        stage.setHeight(550);
+        stage.setHeight(600);
         stage.show();
 
     }
@@ -93,6 +102,23 @@ public class App extends Application {
                 }
             }
         }
+    }
+
+    public static String obtenerCrucigrama() throws SQLException {
+        Connection conn;
+        conn = Conexion.conectar();
+        CrucigramaDaoImpl dataBase = new CrucigramaDaoImpl(conn);
+        String entrada = dataBase.cargarCrucigramaAleatorio();
+        return entrada;
+
+    }
+
+    public static Crucigrama crearCrucigrama() {
+
+        List<Pregunta> preguntas = new ArrayList<>();
+        char[][] matriz = new char[10][10];
+        List<String> listaVerticales = new ArrayList<>(), listaHorizontales = new ArrayList<>();
+        return new Crucigrama(matriz, preguntas, listaVerticales, listaHorizontales);
     }
 
     /**
@@ -152,6 +178,7 @@ public class App extends Application {
                             clearLabel(textField);
                         } else {
                             textField.setEditable(true); // Establece editable en verdadero
+                            //this is for testing purpouses only:
                             textField.setText(String.valueOf(character));
                             textField.setStyle(""); // Restablece el color de fondo
                         }
@@ -193,13 +220,10 @@ public class App extends Application {
      *
      * @param list1 La primera lista de enunciados a mostrar.
      * @param list2 La segunda lista de enunciados a mostrar.
-     * @param cajaPistas El TextArea donde se mostrarán los enunciados. Se
-     * espera que este TextArea ya esté inicializado y configurado
-     * correctamente.
+     * @param cajaPistas El área de texto donde se mostrarán los enunciados.
      */
     public static void mostrarEnunciados(List<String> list1, List<String> list2, TextArea cajaPistas) {
-        // Borra el contenido existente del TextArea
-        //TextArea cajaPistas = new TextArea();
+        // Borra el contenido existente del área de texto
         cajaPistas.clear();
         // Habilita el ajuste de texto
         cajaPistas.setWrapText(true);
@@ -209,7 +233,7 @@ public class App extends Application {
         // Agrega un separador entre el título y el contenido
         cajaPistas.appendText("--------------------\n");
 
-        // Itera sobre la Lista 1 y agrega cada cadena al TextArea con números de línea
+        // Itera sobre la Lista 1 y agrega cada cadena al área de texto con números de línea
         for (int i = 0; i < list1.size(); i++) {
             String str = list1.get(i);
             // Agrega el número de línea y el elemento de la lista
@@ -224,21 +248,151 @@ public class App extends Application {
         // Agrega un separador entre el título y el contenido
         cajaPistas.appendText("--------------------\n");
 
-        // Itera sobre la Lista 2 y agrega cada cadena al TextArea con números de línea
+        // Itera sobre la Lista 2 y agrega cada cadena al área de texto con números de línea
         for (int i = 0; i < list2.size(); i++) {
             String str = list2.get(i);
             // Agrega el número de línea y el elemento de la lista
             cajaPistas.appendText((i + 1) + ". " + str + "\n");
         }
-        // Para mover el cursor al principio de la primera línea de un TextArea en JavaFX,
-        // se puede utilizar el método positionCaret.
+        // Mueve el cursor al principio del área de texto
         cajaPistas.positionCaret(0);
 
-        // Esto moverá el cursor al inicio del TextArea. Si deseas asegurarte de que la
-        // primera línea sea visible después de mover el cursor, también puedes establecer
+        // Esto mueve el cursor al inicio del área de texto. Si se desea asegurar que la
+        // primera línea sea visible después de mover el cursor, también se puede establecer
         // la propiedad scrollTop en 0.
         cajaPistas.setScrollTop(0);
+    }
 
+    public static void llenarPalabras(Crucigrama crucigrama, GridPane gridPane) {
+        Connection conn;
+        try {
+            conn = Conexion.conectar();
+            CrucigramaDaoImpl cruci = new CrucigramaDaoImpl(conn);
+            List<Pregunta> respuestas = new ArrayList<>();
+            char[][] palabras = crucigrama.getMatriz();
+
+            int horizontalWordOrder = 1; // Initialize horizontal word order
+            int verticalWordOrder = 1; // Initialize vertical word order
+
+            // Vertical traversal
+            for (int col = 0; col < palabras[0].length; col++) {
+                StringBuilder palabra = new StringBuilder();
+                for (int row = 0; row < palabras.length; row++) {
+                    char character = palabras[row][col];
+                    if (character != '?') {
+                        palabra.append(character);
+                    } else {
+                        if (palabra.length() >= 2) {
+                            // Update the label adjacent to the first letter of each vertical word with the vertical word order
+                            Node node = getNodeByRowColumnIndex(row - palabra.length(), col, gridPane);
+                            if (node instanceof StackPane stackPane && !stackPane.getChildren().isEmpty()) {
+                                Label label = (Label) stackPane.getChildren().get(1); // Assuming the label is at index 1
+                                String existingText = label.getText();
+                                if (!existingText.isEmpty()) {
+                                    label.setText(existingText + "/" + verticalWordOrder+"↓");
+                                } else {
+                                    label.setText(String.valueOf(verticalWordOrder+"↓"));
+                                }
+                                verticalWordOrder++; // Increment vertical word order for the next vertical word
+                            }
+                            // Retrieve the definition associated with the word from the database
+                            String respuesta = palabra.toString().trim();
+                            String enunciado = cruci.buscarDefinicion(respuesta);
+                            respuestas.add(new Pregunta(respuesta, enunciado));
+                        }
+                        palabra.setLength(0);
+                    }
+                }
+                if (palabra.length() >= 2) {
+                    // Update the label adjacent to the first letter of each vertical word with the vertical word order
+                    Node node = getNodeByRowColumnIndex(palabras.length - palabra.length(), col, gridPane);
+                    if (node instanceof StackPane stackPane && !stackPane.getChildren().isEmpty()) {
+                        Label label = (Label) stackPane.getChildren().get(1); // Assuming the label is at index 1
+                        String existingText = label.getText();
+                        if (!existingText.isEmpty()) {
+                            label.setText(existingText + "/" + verticalWordOrder+"↓");
+                        } else {
+                            label.setText(String.valueOf(verticalWordOrder+"↓"));
+                        }
+                        verticalWordOrder++; // Increment vertical word order for the next vertical word
+                    }
+                    // Retrieve the definition associated with the word from the database
+                    String respuesta = palabra.toString().trim();
+                    String enunciado = cruci.buscarDefinicion(respuesta);
+                    respuestas.add(new Pregunta(respuesta, enunciado));
+                }
+            }
+
+            // Horizontal traversal
+            for (int row = 0; row < palabras.length; row++) {
+                StringBuilder palabra = new StringBuilder();
+                for (int col = 0; col < palabras[row].length; col++) {
+                    char character = palabras[row][col];
+                    if (character != '?') {
+                        palabra.append(character);
+                    } else {
+                        if (palabra.length() >= 2) {
+                            // Update the label adjacent to the first letter of each horizontal word with the horizontal word order
+                            Node node = getNodeByRowColumnIndex(row, col - palabra.length(), gridPane);
+                            if (node instanceof StackPane stackPane && !stackPane.getChildren().isEmpty()) {
+                                Label label = (Label) stackPane.getChildren().get(1); // Assuming the label is at index 1
+                                String existingText = label.getText();
+                                if (!existingText.isEmpty()) {
+                                    label.setText(existingText + "/" + horizontalWordOrder+"→");
+                                } else {
+                                    label.setText(String.valueOf(horizontalWordOrder+"→"));
+                                }
+                                horizontalWordOrder++; // Increment horizontal word order for the next horizontal word
+                            }
+                            // Retrieve the definition associated with the word from the database
+                            String respuesta = palabra.toString().trim();
+                            String enunciado = cruci.buscarDefinicion(respuesta);
+                            respuestas.add(new Pregunta(respuesta, enunciado));
+                        }
+                        palabra.setLength(0);
+                    }
+                }
+                if (palabra.length() >= 2) {
+                    // Update the label adjacent to the first letter of each horizontal word with the horizontal word order
+                    Node node = getNodeByRowColumnIndex(row, palabras[row].length - palabra.length(), gridPane);
+                    if (node instanceof StackPane stackPane && !stackPane.getChildren().isEmpty()) {
+                        Label label = (Label) stackPane.getChildren().get(1); // Assuming the label is at index 1
+                        String existingText = label.getText();
+                        if (!existingText.isEmpty()) {
+                            label.setText(existingText + "/" + horizontalWordOrder+"→");
+                        } else {
+                            label.setText(String.valueOf(horizontalWordOrder+"→"));
+                        }
+                        horizontalWordOrder++; // Increment horizontal word order for the next horizontal word
+                    }
+                    // Retrieve the definition associated with the word from the database
+                    String respuesta = palabra.toString().trim();
+                    String enunciado = cruci.buscarDefinicion(respuesta);
+                    respuestas.add(new Pregunta(respuesta, enunciado));
+                }
+            }
+
+            // Add the generated questions to the existing list
+            crucigrama.setPreguntas(respuestas);
+
+        } catch (SQLException ex) {
+            Logger.getLogger(DificilfxController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+// Helper method to find the node in the GridPane by row and column index
+    private static Node getNodeByRowColumnIndex(final int row, final int column, GridPane gridPane) {
+        Node result = null;
+        ObservableList<Node> children = gridPane.getChildren();
+
+        for (Node node : children) {
+            if (GridPane.getRowIndex(node) == row && GridPane.getColumnIndex(node) == column) {
+                result = node;
+                break;
+            }
+        }
+
+        return result;
     }
 
 }

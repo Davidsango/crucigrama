@@ -17,9 +17,8 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<VBox prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.crucigramax.controllers.MediofxController">
-   <children>
+<VBox prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.crucigramax.controllers.MediofxController">
+    <children>
         <MenuBar>
             <menus>
                 <Menu mnemonicParsing="false" text="Archivo">
@@ -47,12 +46,12 @@
                         <Font size="28.0" />
                     </font>
                 </Text>
-                <TextArea fx:id="cajaPistas" editable="false" prefHeight="300.0" prefWidth="300.0" style="-fx-background-color: grey;" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="70.0">
-               <font>
-                  <Font name="Britannic Bold" size="14.0" />
-               </font>
-            </TextArea>
-                <GridPane fx:id="gridPane" gridLinesVisible="true" layoutX="40.0" layoutY="40.0" prefHeight="300.0" prefWidth="300.0" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="70.0">
+                <TextArea fx:id="cajaPistas" editable="false" prefHeight="400.0" prefWidth="300.0" style="-fx-background-color: grey;" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="70.0">
+                    <font>
+                        <Font name="Britannic Bold" size="14.0" />
+                    </font>
+                </TextArea>
+                <GridPane fx:id="gridPane" gridLinesVisible="true" layoutX="4.0" layoutY="57.333333333333336" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="400.0" AnchorPane.bottomAnchor="87.0" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="70.0">
                     <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -81,539 +80,629 @@
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
                             <children>
                                 <TextField fx:id="H1V1" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                                <Label text="" StackPane.alignment="TOP_LEFT" />
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" />
                             </children>
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
                             <children>
                                 <TextField fx:id="H1V2" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                                <Label text="" StackPane.alignment="TOP_LEFT" />
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" />
                             </children>
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="0">
                             <children>
                                 <TextField fx:id="H1V3" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                                <Label text="" StackPane.alignment="TOP_LEFT" />
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" />
                             </children>
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="0">
                             <children>
                                 <TextField fx:id="H1V4" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                                <Label text="" StackPane.alignment="TOP_LEFT" />
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" />
                             </children>
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="0">
                             <children>
                                 <TextField fx:id="H1V5" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                                <Label text="" StackPane.alignment="TOP_LEFT" />
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" />
                             </children>
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="5" GridPane.rowIndex="0">
                             <children>
                                 <TextField fx:id="H1V6" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                                <Label text="" StackPane.alignment="TOP_LEFT" />
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" />
                             </children>
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="6" GridPane.rowIndex="0">
                             <children>
                                 <TextField fx:id="H1V7" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                                <Label text="" StackPane.alignment="TOP_LEFT" />
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" />
                             </children>
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="7" GridPane.rowIndex="0">
                             <children>
                                 <TextField fx:id="H1V8" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                                <Label text="" StackPane.alignment="TOP_LEFT" />
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" />
                             </children>
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="8" GridPane.rowIndex="0">
                             <children>
                                 <TextField fx:id="H1V9" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                                <Label text="" StackPane.alignment="TOP_LEFT" />
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" />
                             </children>
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="9" GridPane.rowIndex="0">
                             <children>
                                 <TextField fx:id="H1V10" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                                <Label text="" StackPane.alignment="TOP_LEFT" />
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" />
                             </children>
                         </StackPane>
       
-                                    <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                        <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
                             <children>
                                 <TextField fx:id="H2V1" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                                <Label text="" StackPane.alignment="TOP_LEFT" />
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" />
                             </children>
                         </StackPane>
+                        
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                             <children>
                                 <TextField fx:id="H2V2" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
       
-                                        </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
                             <children>
                                 <TextField fx:id="H2V3" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
                             <children>
                                 <TextField fx:id="H2V4" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="1">
                             <children>
                                 <TextField fx:id="H2V5" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="5" GridPane.rowIndex="1">
                             <children>
                                 <TextField fx:id="H2V6" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="6" GridPane.rowIndex="1">
                             <children>
                                 <TextField fx:id="H2V7" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="7" GridPane.rowIndex="1">
                             <children>
                                 <TextField fx:id="H2V8" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="8" GridPane.rowIndex="1">
                             <children>
                                 <TextField fx:id="H2V9" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="9" GridPane.rowIndex="1">
                             <children>
                                 <TextField fx:id="H2V10" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="2">
                             <children>
                                 <TextField fx:id="H3V1" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                                <Label text="" StackPane.alignment="TOP_LEFT" />
-                            </children>
+                                
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                             <children>
                                 <TextField fx:id="H3V2" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
                             <children>
                                 <TextField fx:id="H3V3" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="2">
                             <children>
                                 <TextField fx:id="H3V4" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="2">
                             <children>
                                 <TextField fx:id="H3V5" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="5" GridPane.rowIndex="2">
                             <children>
                                 <TextField fx:id="H3V6" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="6" GridPane.rowIndex="2">
                             <children>
                                 <TextField fx:id="H3V7" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="7" GridPane.rowIndex="2">
                             <children>
                                 <TextField fx:id="H3V8" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="8" GridPane.rowIndex="2">
                             <children>
                                 <TextField fx:id="H3V9" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="9" GridPane.rowIndex="2">
                             <children>
                                 <TextField fx:id="H3V10" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="3">
                             <children>
                                 <TextField fx:id="H4V1" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                                <Label text="" StackPane.alignment="TOP_LEFT" />
-                            </children>
+                                
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                             <children>
                                 <TextField fx:id="H4V2" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
                             <children>
                                 <TextField fx:id="H4V3" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="3">
                             <children>
                                 <TextField fx:id="H4V4" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="3">
                             <children>
                                 <TextField fx:id="H4V5" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="5" GridPane.rowIndex="3">
                             <children>
                                 <TextField fx:id="H4V6" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="6" GridPane.rowIndex="3">
                             <children>
                                 <TextField fx:id="H4V7" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="7" GridPane.rowIndex="3">
                             <children>
                                 <TextField fx:id="H4V8" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="8" GridPane.rowIndex="3">
                             <children>
                                 <TextField fx:id="H4V9" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="9" GridPane.rowIndex="3">
                             <children>
                                 <TextField fx:id="H4V10" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="4">
                             <children>
                                 <TextField fx:id="H5V1" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                                <Label text="" StackPane.alignment="TOP_LEFT" />
-                            </children>
+                                
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                             <children>
                                 <TextField fx:id="H5V2" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="4">
                             <children>
                                 <TextField fx:id="H5V3" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="4">
                             <children>
                                 <TextField fx:id="H5V4" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="4">
                             <children>
                                 <TextField fx:id="H5V5" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="5" GridPane.rowIndex="4">
                             <children>
                                 <TextField fx:id="H5V6" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="6" GridPane.rowIndex="4">
                             <children>
                                 <TextField fx:id="H5V7" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="7" GridPane.rowIndex="4">
                             <children>
                                 <TextField fx:id="H5V8" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="8" GridPane.rowIndex="4">
                             <children>
                                 <TextField fx:id="H5V9" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="9" GridPane.rowIndex="4">
                             <children>
                                 <TextField fx:id="H5V10" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
       
-                                    <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="5">
+                        <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="5">
                             <children>
                                 <TextField fx:id="H6V1" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                                <Label text="" StackPane.alignment="TOP_LEFT" />
-                            </children>
+                                
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
                             <children>
                                 <TextField fx:id="H6V2" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="5">
                             <children>
                                 <TextField fx:id="H6V3" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="5">
                             <children>
                                 <TextField fx:id="H6V4" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="5">
                             <children>
                                 <TextField fx:id="H6V5" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="5" GridPane.rowIndex="5">
                             <children>
                                 <TextField fx:id="H6V6" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="6" GridPane.rowIndex="5">
                             <children>
                                 <TextField fx:id="H6V7" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="7" GridPane.rowIndex="5">
                             <children>
                                 <TextField fx:id="H6V8" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="8" GridPane.rowIndex="5">
                             <children>
                                 <TextField fx:id="H6V9" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="9" GridPane.rowIndex="5">
                             <children>
                                 <TextField fx:id="H6V10" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
       
-                                    <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="6">
+                        <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="6">
                             <children>
                                 <TextField fx:id="H7V1" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                                <Label text="" StackPane.alignment="TOP_LEFT" />
-                            </children>
+                                
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
                             <children>
                                 <TextField fx:id="H7V2" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="6">
                             <children>
                                 <TextField fx:id="H7V3" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="6">
                             <children>
                                 <TextField fx:id="H7V4" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="6">
                             <children>
                                 <TextField fx:id="H7V5" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="5" GridPane.rowIndex="6">
                             <children>
                                 <TextField fx:id="H7V6" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="6" GridPane.rowIndex="6">
                             <children>
                                 <TextField fx:id="H7V7" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="7" GridPane.rowIndex="6">
                             <children>
                                 <TextField fx:id="H7V8" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="8" GridPane.rowIndex="6">
                             <children>
                                 <TextField fx:id="H7V9" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="9" GridPane.rowIndex="6">
                             <children>
                                 <TextField fx:id="H7V10" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
       
                                                                         
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="7">
                             <children>
                                 <TextField fx:id="H8V1" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                                <Label text="" StackPane.alignment="TOP_LEFT" />
-                            </children>
+                                
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="7">
                             <children>
                                 <TextField fx:id="H8V2" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="7">
                             <children>
                                 <TextField fx:id="H8V3" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="7">
                             <children>
                                 <TextField fx:id="H8V4" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="7">
                             <children>
                                 <TextField fx:id="H8V5" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="5" GridPane.rowIndex="7">
                             <children>
                                 <TextField fx:id="H8V6" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="6" GridPane.rowIndex="7">
                             <children>
                                 <TextField fx:id="H8V7" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="7" GridPane.rowIndex="7">
                             <children>
                                 <TextField fx:id="H8V8" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="8" GridPane.rowIndex="7">
                             <children>
                                 <TextField fx:id="H8V9" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="9" GridPane.rowIndex="7">
                             <children>
                                 <TextField fx:id="H8V10" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
       
-                                    <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="8">
+                        <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="8">
                             <children>
                                 <TextField fx:id="H9V1" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                                <Label text="" StackPane.alignment="TOP_LEFT" />
-                            </children>
+                                
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="8">
                             <children>
                                 <TextField fx:id="H9V2" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="8">
                             <children>
                                 <TextField fx:id="H9V3" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="8">
                             <children>
                                 <TextField fx:id="H9V4" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="8">
                             <children>
                                 <TextField fx:id="H9V5" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="5" GridPane.rowIndex="8">
                             <children>
                                 <TextField fx:id="H9V6" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="6" GridPane.rowIndex="8">
                             <children>
                                 <TextField fx:id="H9V7" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="7" GridPane.rowIndex="8">
                             <children>
                                 <TextField fx:id="H9V8" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="8" GridPane.rowIndex="8">
                             <children>
                                 <TextField fx:id="H9V9" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="9" GridPane.rowIndex="8">
                             <children>
                                 <TextField fx:id="H9V10" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
       
-                                    <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="9">
+                        <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="9">
                             <children>
                                 <TextField fx:id="H10V1" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                                <Label text="" StackPane.alignment="TOP_LEFT" />
-                            </children>
+                                
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="9">
                             <children>
                                 <TextField fx:id="H10V2" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="9">
                             <children>
                                 <TextField fx:id="H10V3" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="9">
                             <children>
                                 <TextField fx:id="H10V4" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="9">
                             <children>
                                 <TextField fx:id="H10V5" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="5" GridPane.rowIndex="9">
                             <children>
                                 <TextField fx:id="H10V6" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="6" GridPane.rowIndex="9">
                             <children>
                                 <TextField fx:id="H10V7" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="7" GridPane.rowIndex="9">
                             <children>
                                 <TextField fx:id="H10V8" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="8" GridPane.rowIndex="9">
                             <children>
                                 <TextField fx:id="H10V9" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
                         <StackPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="9" GridPane.rowIndex="9">
                             <children>
                                 <TextField fx:id="H10V10" alignment="CENTER" prefHeight="60.0" prefWidth="60.0" />
-                            </children>
+                                <Label style="-fx-font-size: 10px; -fx-font-weight: bold;" text="" StackPane.alignment="TOP_LEFT" /> 
+                            </children> 
                         </StackPane>
       
-                                </children>
+                    </children>
                 </GridPane>
-            <Button layoutX="359.0" layoutY="418.0" mnemonicParsing="false" text="VALIDAR">
-               <font>
-                  <Font name="Britannic Bold" size="16.0" />
-               </font>
-            </Button>
+                <Button alignment="CENTER" layoutX="367.0" layoutY="507.0" mnemonicParsing="false" text="VALIDAR" AnchorPane.bottomAnchor="39.0">
+                    <font>
+                        <Font name="Britannic Bold" size="16.0" />
+                    </font>
+                </Button>
             </children>
         </AnchorPane>
-   </children>
+    </children>
 </VBox>
