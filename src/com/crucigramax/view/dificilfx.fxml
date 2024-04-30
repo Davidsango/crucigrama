@@ -41,17 +41,17 @@
         </MenuBar>
         <AnchorPane maxHeight="-1.0" maxWidth="-1.0" VBox.vgrow="ALWAYS">
             <children>
-                <Text layoutX="357.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="DIFICIL">
+                <Text layoutX="357.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="DIFICIL" AnchorPane.bottomAnchor="518.7578125" AnchorPane.leftAnchor="357.0" AnchorPane.rightAnchor="356.4928385416667" AnchorPane.topAnchor="17.78515625">
                     <font>
                         <Font size="28.0" />
                     </font>
                 </Text>
-                <TextArea fx:id="cajaPistas" editable="false" prefHeight="400.0" prefWidth="300.0" style="-fx-background-color: grey;" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="70.0">
+                <TextArea fx:id="cajaPistas" editable="false" prefHeight="400.0" prefWidth="300.0" style="-fx-background-color: grey;" AnchorPane.bottomAnchor="87.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="70.0">
                     <font>
                         <Font name="Britannic Bold" size="14.0" />
                     </font>
                 </TextArea>
-                <GridPane fx:id="gridPane" gridLinesVisible="true" layoutX="4.0" layoutY="57.333333333333336" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="400.0" AnchorPane.bottomAnchor="87.0" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="70.0">
+                <GridPane fx:id="gridPane" gridLinesVisible="true" layoutX="4.0" layoutY="57.333333333333336" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="400.0" AnchorPane.bottomAnchor="87.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="360.0" AnchorPane.topAnchor="70.0">
                     <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -697,7 +697,7 @@
       
                     </children>
                 </GridPane>
-                <Button alignment="CENTER" layoutX="367.0" layoutY="507.0" mnemonicParsing="false" text="VALIDAR" AnchorPane.bottomAnchor="39.0">
+                <Button alignment="CENTER" layoutX="367.0" layoutY="507.0" mnemonicParsing="false" onMouseClicked="#validar" text="VALIDAR" AnchorPane.bottomAnchor="39.0">
                     <font>
                         <Font name="Britannic Bold" size="16.0" />
                     </font>

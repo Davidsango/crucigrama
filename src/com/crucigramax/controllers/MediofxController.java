@@ -1,6 +1,7 @@
 package com.crucigramax.controllers;
 
 import com.crucigramax.model.Crucigrama;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
@@ -9,6 +10,7 @@ import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextArea;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 
 /**
@@ -54,6 +56,12 @@ public class MediofxController implements Initializable {
         App.aplicarValidacionATextFields(gridPane);
         App.mostrarEnunciados(crucigrama.getListaHorizontales(), crucigrama.getListaVerticales(), cajaPistas);
 
+    }
+
+    @FXML
+    private void validar(MouseEvent event) throws IOException {
+        // Call the method from the Utility class
+        App.validarTextField(crucigrama.getMatriz(), gridPane);
     }
 
 }

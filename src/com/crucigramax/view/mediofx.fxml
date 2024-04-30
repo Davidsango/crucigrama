@@ -46,7 +46,7 @@
                         <Font size="28.0" />
                     </font>
                 </Text>
-                <TextArea fx:id="cajaPistas" editable="false" prefHeight="400.0" prefWidth="300.0" style="-fx-background-color: grey;" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="70.0">
+                <TextArea fx:id="cajaPistas" editable="false" prefHeight="417.0" prefWidth="300.0" style="-fx-background-color: grey;" AnchorPane.bottomAnchor="87.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="70.0">
                     <font>
                         <Font name="Britannic Bold" size="14.0" />
                     </font>
@@ -697,11 +697,16 @@
       
                     </children>
                 </GridPane>
-                <Button alignment="CENTER" layoutX="367.0" layoutY="507.0" mnemonicParsing="false" text="VALIDAR" AnchorPane.bottomAnchor="39.0">
+                <Button alignment="CENTER" layoutX="351.0" layoutY="508.0" mnemonicParsing="false" onMouseClicked="#validar" text="VALIDAR" AnchorPane.bottomAnchor="38.0">
                     <font>
                         <Font name="Britannic Bold" size="16.0" />
                     </font>
                 </Button>
+            <Button alignment="CENTER" layoutX="469.0" layoutY="508.0" mnemonicParsing="false" text="AYUDA" AnchorPane.bottomAnchor="38.0">
+               <font>
+                  <Font name="Britannic Bold" size="16.0" />
+               </font>
+            </Button>
             </children>
         </AnchorPane>
     </children>

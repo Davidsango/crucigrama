@@ -1,14 +1,7 @@
 package com.crucigramax.model;
 
-import com.crucigramax.controllers.DificilfxController;
-import com.crucigramax.services.Conexion;
-import com.crucigramax.services.CrucigramaDaoImpl;
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * La clase Crucigrama representa un juego de crucigrama, que consta de una
@@ -114,6 +107,8 @@ public class Crucigrama {
      * Crea una matriz de caracteres a partir de una cadena de entrada. La
      * longitud de la cadena de entrada debe ser exactamente 100 caracteres.
      *
+     * @param entrada: El crucigrama se representa en una sola linea de String
+     * almacenada en la base de datos, el cual se organiza en la matríz de 10x10
      * @throws IllegalArgumentException Si la longitud de la cadena de entrada
      * no es 100.
      */
@@ -141,86 +136,8 @@ public class Crucigrama {
 
         // Establece la matriz creada en el objeto actual
         this.setMatriz(cruci);
-
-        /* Llena las palabras en el crucigrama y establece las listas
-        *  de palabras horizontales y verticales
-         */
-       // llenarPalabras();
-        //llenarListas(this.getMatriz());
-        // llenarHorizontales(this.getMatriz());
-        //llenarVerticales(this.getMatriz());
-
     }
-
-    /**
-     * Recorre la matriz para encontrar palabras y agregarlas a la lista de
-     * preguntas con sus respectivas pistas recuperadas de la base de datos.
-     */
-    private void llenarPalabras() {
-        Connection conn;
-        try {
-            conn = Conexion.conectar();
-            CrucigramaDaoImpl cruci = new CrucigramaDaoImpl(conn);
-            List<Pregunta> respuestas = new ArrayList<>();
-            char[][] palabras = this.getMatriz();
-
-            // Recorrer horizontalmente
-            for (char[] fila : palabras) {
-                StringBuilder palabra = new StringBuilder();
-                for (char c : fila) {
-                    if (c != '?') {
-                        palabra.append(c);
-                    } else {
-                        if (palabra.length() >= 2) {
-                            String respuesta = palabra.toString().trim(); // Trim respuesta string
-
-                            String enunciado = cruci.buscarDefinicion(respuesta); // Llama a tu método para recuperar la pista de la base de datos
-                            respuestas.add(new Pregunta(respuesta, enunciado));
-                        }
-                        palabra.setLength(0);
-                    }
-                }
-                if (palabra.length() >= 2) {
-                    String respuesta = palabra.toString().trim(); // Trim respuesta string
-
-                    String enunciado = cruci.buscarDefinicion(respuesta); // Llama a tu método para recuperar la pista de la base de datos
-                    respuestas.add(new Pregunta(respuesta, enunciado));
-                }
-            }
-
-            // Recorrer verticalmente
-            for (int i = 0; i < palabras[0].length; i++) {
-                StringBuilder palabra = new StringBuilder();
-                for (char[] columna : palabras) {
-                    char c = columna[i];
-                    if (c != '?') {
-                        palabra.append(c);
-                    } else {
-                        if (palabra.length() >= 2) {
-                            String respuesta = palabra.toString().trim(); // Trim respuesta string
-
-                            String enunciado = cruci.buscarDefinicion(respuesta); // Llama a tu método para recuperar la pista de la base de datos
-                            respuestas.add(new Pregunta(respuesta, enunciado));
-                        }
-                        palabra.setLength(0);
-                    }
-                }
-                if (palabra.length() >= 2) {
-                    String respuesta = palabra.toString().trim(); // Trim respuesta string
-
-                    String enunciado = cruci.buscarDefinicion(respuesta); // Llama a tu método para recuperar la pista de la base de datos
-                    respuestas.add(new Pregunta(respuesta, enunciado));
-                }
-            }
-            // Agregar las preguntas generadas a la lista existente
-            //this.preguntas.addAll(preguntas);
-            this.setPreguntas(respuestas);
-
-        } catch (SQLException ex) {
-            Logger.getLogger(DificilfxController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
+    
     /**
      * Genera las listas de palabras horizontales y verticales del crucigrama y
      * sus respectivos enunciados.

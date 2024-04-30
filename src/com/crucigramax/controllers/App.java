@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
+import static javafx.application.Application.launch;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
@@ -19,6 +20,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -155,33 +157,22 @@ public class App extends Application {
      * carácter '?' se mostrarán como no editables y con fondo negro.
      */
     public static void actualizarTextField(char[][] matrix, GridPane gridPane) {
-
-        // Recorre el GridPane
-        for (Node node : gridPane.getChildren()) {
-            if (node instanceof StackPane stackPane) {
-                if (!stackPane.getChildren().isEmpty() && stackPane.getChildren().get(0) instanceof TextField) {
+        for (int row = 0; row < matrix.length; row++) {
+            for (int col = 0; col < matrix[row].length; col++) {
+                Node node = obtenerNodoPorIndiceFilaColumna(row, col, gridPane);
+                if (node instanceof StackPane stackPane && !stackPane.getChildren().isEmpty() && stackPane.getChildren().get(0) instanceof TextField) {
                     TextField textField = (TextField) stackPane.getChildren().get(0);
-
-                    // Obtiene el índice de fila y columna del TextField
-                    int row = GridPane.getRowIndex(stackPane);
-                    int col = GridPane.getColumnIndex(stackPane);
-
-                    // Verifica si los índices de fila y columna son válidos
-                    if (row >= 0 && col >= 0 && row < matrix.length && col < matrix[0].length) {
-                        // Actualiza el TextField en función del carácter en la matriz
-                        char character = matrix[row][col];
-                        textField.setText(""); // Limpia el texto
-                        if (character == '?') {
-                            textField.setEditable(false); // Establece editable en falso
-                            textField.setStyle("-fx-background-color: black;"); // Cambia el color de fondo a negro
-                            // Limpia la etiqueta asociada con el TextField
-                            clearLabel(textField);
-                        } else {
-                            textField.setEditable(true); // Establece editable en verdadero
-                            //this is for testing purpouses only:
-                            textField.setText(String.valueOf(character));
-                            textField.setStyle(""); // Restablece el color de fondo
-                        }
+                    char character = matrix[row][col];
+                    textField.setText("");
+                    if (character == '?') {
+                        textField.setEditable(false);
+                        textField.setStyle("-fx-background-color: black;");
+                        clearLabel(textField);
+                    } else {
+                        textField.setEditable(true);
+                        // Testing purposes only:
+                        textField.setText(String.valueOf(character));
+                        textField.setStyle("");
                     }
                 }
             }
@@ -263,6 +254,14 @@ public class App extends Application {
         cajaPistas.setScrollTop(0);
     }
 
+    /**
+     * Llena las palabras del crucigrama en el GridPane y recopila las
+     * definiciones asociadas desde la base de datos.
+     *
+     * @param crucigrama El crucigrama que se está llenando.
+     * @param gridPane El GridPane en el que se colocarán las palabras del
+     * crucigrama.
+     */
     public static void llenarPalabras(Crucigrama crucigrama, GridPane gridPane) {
         Connection conn;
         try {
@@ -271,10 +270,10 @@ public class App extends Application {
             List<Pregunta> respuestas = new ArrayList<>();
             char[][] palabras = crucigrama.getMatriz();
 
-            int horizontalWordOrder = 1; // Initialize horizontal word order
-            int verticalWordOrder = 1; // Initialize vertical word order
+            int ordenPalabraHorizontal = 1; // Inicializar el orden de palabra horizontal
+            int ordenPalabraVertical = 1; // Inicializar el orden de palabra vertical
 
-            // Vertical traversal
+            // Recorrido vertical
             for (int col = 0; col < palabras[0].length; col++) {
                 StringBuilder palabra = new StringBuilder();
                 for (int row = 0; row < palabras.length; row++) {
@@ -283,19 +282,19 @@ public class App extends Application {
                         palabra.append(character);
                     } else {
                         if (palabra.length() >= 2) {
-                            // Update the label adjacent to the first letter of each vertical word with the vertical word order
-                            Node node = getNodeByRowColumnIndex(row - palabra.length(), col, gridPane);
-                            if (node instanceof StackPane stackPane && !stackPane.getChildren().isEmpty()) {
-                                Label label = (Label) stackPane.getChildren().get(1); // Assuming the label is at index 1
-                                String existingText = label.getText();
-                                if (!existingText.isEmpty()) {
-                                    label.setText(existingText + "/" + verticalWordOrder+"↓");
+                            // Actualizar la etiqueta adyacente a la primera letra de cada palabra vertical con el orden de palabra vertical
+                            Node nodo = obtenerNodoPorIndiceFilaColumna(row - palabra.length(), col, gridPane);
+                            if (nodo instanceof StackPane stackPane && !stackPane.getChildren().isEmpty()) {
+                                Label etiqueta = (Label) stackPane.getChildren().get(1); // Suponiendo que la etiqueta está en el índice 1
+                                String textoExistente = etiqueta.getText();
+                                if (!textoExistente.isEmpty()) {
+                                    etiqueta.setText(textoExistente + "/" + ordenPalabraVertical + "↓");
                                 } else {
-                                    label.setText(String.valueOf(verticalWordOrder+"↓"));
+                                    etiqueta.setText(String.valueOf(ordenPalabraVertical + "↓"));
                                 }
-                                verticalWordOrder++; // Increment vertical word order for the next vertical word
+                                ordenPalabraVertical++; // Incrementar el orden de palabra vertical para la siguiente palabra vertical
                             }
-                            // Retrieve the definition associated with the word from the database
+                            // Obtener la definición asociada con la palabra desde la base de datos
                             String respuesta = palabra.toString().trim();
                             String enunciado = cruci.buscarDefinicion(respuesta);
                             respuestas.add(new Pregunta(respuesta, enunciado));
@@ -304,26 +303,25 @@ public class App extends Application {
                     }
                 }
                 if (palabra.length() >= 2) {
-                    // Update the label adjacent to the first letter of each vertical word with the vertical word order
-                    Node node = getNodeByRowColumnIndex(palabras.length - palabra.length(), col, gridPane);
-                    if (node instanceof StackPane stackPane && !stackPane.getChildren().isEmpty()) {
-                        Label label = (Label) stackPane.getChildren().get(1); // Assuming the label is at index 1
-                        String existingText = label.getText();
-                        if (!existingText.isEmpty()) {
-                            label.setText(existingText + "/" + verticalWordOrder+"↓");
+                    // Actualizar la etiqueta adyacente a la primera letra de cada palabra vertical con el orden de palabra vertical
+                    Node nodo = obtenerNodoPorIndiceFilaColumna(palabras.length - palabra.length(), col, gridPane);
+                    if (nodo instanceof StackPane stackPane && !stackPane.getChildren().isEmpty()) {
+                        Label etiqueta = (Label) stackPane.getChildren().get(1); // Suponiendo que la etiqueta está en el índice 1
+                        String textoExistente = etiqueta.getText();
+                        if (!textoExistente.isEmpty()) {
+                            etiqueta.setText(textoExistente + "/" + ordenPalabraVertical + "↓");
                         } else {
-                            label.setText(String.valueOf(verticalWordOrder+"↓"));
+                            etiqueta.setText(String.valueOf(ordenPalabraVertical + "↓"));
                         }
-                        verticalWordOrder++; // Increment vertical word order for the next vertical word
+                        ordenPalabraVertical++; // Incrementar el orden de palabra vertical para la siguiente palabra vertical
                     }
-                    // Retrieve the definition associated with the word from the database
+                    // Obtener la definición asociada con la palabra desde la base de datos
                     String respuesta = palabra.toString().trim();
                     String enunciado = cruci.buscarDefinicion(respuesta);
                     respuestas.add(new Pregunta(respuesta, enunciado));
                 }
             }
-
-            // Horizontal traversal
+            // Recorrido horizontal
             for (int row = 0; row < palabras.length; row++) {
                 StringBuilder palabra = new StringBuilder();
                 for (int col = 0; col < palabras[row].length; col++) {
@@ -332,19 +330,19 @@ public class App extends Application {
                         palabra.append(character);
                     } else {
                         if (palabra.length() >= 2) {
-                            // Update the label adjacent to the first letter of each horizontal word with the horizontal word order
-                            Node node = getNodeByRowColumnIndex(row, col - palabra.length(), gridPane);
-                            if (node instanceof StackPane stackPane && !stackPane.getChildren().isEmpty()) {
-                                Label label = (Label) stackPane.getChildren().get(1); // Assuming the label is at index 1
-                                String existingText = label.getText();
-                                if (!existingText.isEmpty()) {
-                                    label.setText(existingText + "/" + horizontalWordOrder+"→");
+                            // Actualizar la etiqueta adyacente a la primera letra de cada palabra horizontal con el orden de palabra horizontal
+                            Node nodo = obtenerNodoPorIndiceFilaColumna(row, col - palabra.length(), gridPane);
+                            if (nodo instanceof StackPane stackPane && !stackPane.getChildren().isEmpty()) {
+                                Label etiqueta = (Label) stackPane.getChildren().get(1); // Suponiendo que la etiqueta está en el índice 1
+                                String textoExistente = etiqueta.getText();
+                                if (!textoExistente.isEmpty()) {
+                                    etiqueta.setText(textoExistente + "/" + ordenPalabraHorizontal + "→");
                                 } else {
-                                    label.setText(String.valueOf(horizontalWordOrder+"→"));
+                                    etiqueta.setText(String.valueOf(ordenPalabraHorizontal + "→"));
                                 }
-                                horizontalWordOrder++; // Increment horizontal word order for the next horizontal word
+                                ordenPalabraHorizontal++; // Incrementar el orden de palabra horizontal para la siguiente palabra horizontal
                             }
-                            // Retrieve the definition associated with the word from the database
+                            // Obtener la definición asociada con la palabra desde la base de datos
                             String respuesta = palabra.toString().trim();
                             String enunciado = cruci.buscarDefinicion(respuesta);
                             respuestas.add(new Pregunta(respuesta, enunciado));
@@ -353,26 +351,25 @@ public class App extends Application {
                     }
                 }
                 if (palabra.length() >= 2) {
-                    // Update the label adjacent to the first letter of each horizontal word with the horizontal word order
-                    Node node = getNodeByRowColumnIndex(row, palabras[row].length - palabra.length(), gridPane);
-                    if (node instanceof StackPane stackPane && !stackPane.getChildren().isEmpty()) {
-                        Label label = (Label) stackPane.getChildren().get(1); // Assuming the label is at index 1
-                        String existingText = label.getText();
-                        if (!existingText.isEmpty()) {
-                            label.setText(existingText + "/" + horizontalWordOrder+"→");
+                    // Actualizar la etiqueta adyacente a la primera letra de cada palabra horizontal con el orden de palabra horizontal
+                    Node nodo = obtenerNodoPorIndiceFilaColumna(row, palabras[row].length - palabra.length(), gridPane);
+                    if (nodo instanceof StackPane stackPane && !stackPane.getChildren().isEmpty()) {
+                        Label etiqueta = (Label) stackPane.getChildren().get(1); // Suponiendo que la etiqueta está en el índice 1
+                        String textoExistente = etiqueta.getText();
+                        if (!textoExistente.isEmpty()) {
+                            etiqueta.setText(textoExistente + "/" + ordenPalabraHorizontal + "→");
                         } else {
-                            label.setText(String.valueOf(horizontalWordOrder+"→"));
+                            etiqueta.setText(String.valueOf(ordenPalabraHorizontal + "→"));
                         }
-                        horizontalWordOrder++; // Increment horizontal word order for the next horizontal word
+                        ordenPalabraHorizontal++; // Incrementar el orden de palabra horizontal para la siguiente palabra horizontal
                     }
-                    // Retrieve the definition associated with the word from the database
+                    // Obtener la definición asociada con la palabra desde la base de datos
                     String respuesta = palabra.toString().trim();
                     String enunciado = cruci.buscarDefinicion(respuesta);
                     respuestas.add(new Pregunta(respuesta, enunciado));
                 }
             }
-
-            // Add the generated questions to the existing list
+            // Agregar las preguntas generadas a la lista existente
             crucigrama.setPreguntas(respuestas);
 
         } catch (SQLException ex) {
@@ -380,19 +377,88 @@ public class App extends Application {
         }
     }
 
-// Helper method to find the node in the GridPane by row and column index
-    private static Node getNodeByRowColumnIndex(final int row, final int column, GridPane gridPane) {
-        Node result = null;
-        ObservableList<Node> children = gridPane.getChildren();
+    /**
+     * Método auxiliar para encontrar el nodo en el GridPane por índice de fila
+     * y columna.
+     *
+     * @param fila El índice de fila del nodo a buscar.
+     * @param columna El índice de columna del nodo a buscar.
+     * @param gridPane El GridPane en el que buscar el nodo.
+     * @return El nodo encontrado, o null si no se encuentra ningún nodo con los
+     * índices especificados.
+     */
+    private static Node obtenerNodoPorIndiceFilaColumna(final int fila, final int columna, GridPane gridPane) {
+        Node resultado = null;
+        ObservableList<Node> hijos = gridPane.getChildren();
 
-        for (Node node : children) {
-            if (GridPane.getRowIndex(node) == row && GridPane.getColumnIndex(node) == column) {
-                result = node;
+        // Iterar sobre los nodos hijos del GridPane
+        for (Node nodo : hijos) {
+            // Verificar si el nodo tiene el índice de fila y columna especificado
+            if (GridPane.getRowIndex(nodo) == fila && GridPane.getColumnIndex(nodo) == columna) {
+                resultado = nodo;
                 break;
             }
         }
 
-        return result;
+        return resultado;
+    }
+
+    /**
+     * Valida los TextField dentro de un GridPane comparándolos con una matriz
+     * de caracteres. Si un TextField contiene el mismo carácter que su
+     * contraparte en la matriz, lo resalta en verde. Si no, lo resalta en rojo.
+     * Además, muestra un mensaje si todos los campos no vacíos son correctos.
+     *
+     * @param matriz La matriz de caracteres con la que se compararán los
+     * TextField.
+     * @param gridPane El GridPane que contiene los TextField a validar.
+     */
+    public static void validarTextField(char[][] matriz, GridPane gridPane) throws IOException {
+        boolean todosCamposCorrectos = true; // Bandera para verificar si todos los campos no vacíos están correctos
+
+        // Iterar sobre cada celda de la matriz y su TextField correspondiente en el GridPane
+        for (int fila = 0; fila < matriz.length; fila++) {
+            for (int columna = 0; columna < matriz[fila].length; columna++) {
+                Node nodo = obtenerNodoPorIndiceFilaColumna(fila, columna, gridPane);
+                if (nodo instanceof StackPane stackPane && !stackPane.getChildren().isEmpty() && stackPane.getChildren().get(0) instanceof TextField) {
+                    TextField textField = (TextField) stackPane.getChildren().get(0);
+                    char caracter = matriz[fila][columna];
+                    String textoTextField = textField.getText().toUpperCase(); // Convertir a mayúsculas
+                    if (!textoTextField.isEmpty()) {
+                        // El TextField no está vacío
+                        if (caracter != '?') {
+                            // El carácter en la matriz no es '?' (es decir, no se ignora)
+                            if (textoTextField.charAt(0) == caracter) {
+                                // El contenido del TextField es igual al de la matriz
+                                textField.setStyle("-fx-background-color: #32CD32;");
+                            } else {
+                                // El contenido del TextField es diferente al de la matriz
+                                textField.setStyle("-fx-background-color: red;");
+                                todosCamposCorrectos = false; // Al menos un campo no está correcto
+                            }
+                        } else {
+                            // El carácter en la matriz es '?', se ignora
+                            textField.setStyle(""); // Restablecer estilo
+                        }
+                    } else if (caracter != '?') {
+                        // El TextField está vacío y el carácter en la matriz no es '?', se marca como incorrecto
+                        textField.setStyle("-fx-background-color: red;");
+                        todosCamposCorrectos = false;
+                    }
+                }
+            }
+        }
+
+        // Verificar si todos los campos no vacíos están correctos
+        if (todosCamposCorrectos) {
+            // Mostrar mensaje de juego completado
+            Alert alerta = new Alert(AlertType.INFORMATION);
+            alerta.setTitle("Juego completado");
+            alerta.setHeaderText(null);
+            alerta.setContentText("¡Felicidades! Has completado el juego.");
+            alerta.showAndWait();
+            setRoot("nivelesfx");
+        }
     }
 
 }
