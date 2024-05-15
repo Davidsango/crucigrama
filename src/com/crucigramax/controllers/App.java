@@ -2,13 +2,17 @@ package com.crucigramax.controllers;
 
 import com.crucigramax.model.Crucigrama;
 import com.crucigramax.model.Pregunta;
+import com.crucigramax.model.Score; // Importa la clase Score si aún no lo has hecho
+import com.crucigramax.model.Usuario;
 import com.crucigramax.services.Conexion;
 import com.crucigramax.services.CrucigramaDaoImpl;
+import com.crucigramax.services.UsuarioDaoImpl;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
@@ -24,6 +28,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -40,6 +45,9 @@ import javafx.stage.Stage;
 public class App extends Application {
 
     private static Scene scene;
+    private static Score score = new Score(); // Instancia de Score
+
+    
 
     /**
      * Inicializa la aplicación y carga la vista de inicio.
@@ -413,7 +421,7 @@ public class App extends Application {
      * TextField.
      * @param gridPane El GridPane que contiene los TextField a validar.
      */
-    public static void validarTextField(char[][] matriz, GridPane gridPane) throws IOException {
+public static void validarTextField(char[][] matriz, GridPane gridPane) throws IOException {
         boolean todosCamposCorrectos = true; // Bandera para verificar si todos los campos no vacíos están correctos
 
         // Iterar sobre cada celda de la matriz y su TextField correspondiente en el GridPane
@@ -435,6 +443,16 @@ public class App extends Application {
                                 // El contenido del TextField es diferente al de la matriz
                                 textField.setStyle("-fx-background-color: red;");
                                 todosCamposCorrectos = false; // Al menos un campo no está correcto
+
+                                // Incrementar contador de errores y recalcular puntaje
+                                score.incrementarErrores();
+
+                                // Mostrar mensaje de error
+                                Alert alertaError = new Alert(AlertType.ERROR);
+                                alertaError.setTitle("Error");
+                                alertaError.setHeaderText(null);
+                                alertaError.setContentText("¡La palabra ingresada no es correcta!");
+                                alertaError.showAndWait();
                             }
                         } else {
                             // El carácter en la matriz es '?', se ignora
@@ -457,8 +475,53 @@ public class App extends Application {
             alerta.setHeaderText(null);
             alerta.setContentText("¡Felicidades! Has completado el juego.");
             alerta.showAndWait();
-            setRoot("nivelesfx");
+
+            TextInputDialog dialog = new TextInputDialog();
+            dialog.setTitle("Ingresar Nickname");
+            dialog.setHeaderText(null);
+            dialog.setContentText("Por favor, ingresa tu nickname:");
+
+            // Validar el nickname ingresado por el usuario
+            Optional<String> result = dialog.showAndWait();
+            String nickname = null;
+
+            if (result.isPresent()) {
+                nickname = result.get();
+                if (validarNickname(nickname)) {
+                    // Crear una instancia de Usuario y establecer el nickname
+                    Usuario usuario = new Usuario(nickname, score); // Suponiendo que el puntaje es una lista de Score
+                    // Llamar al método insertarUsuario del UsuarioDaoImpl para guardar el usuario y el puntaje en la base de datos
+                    UsuarioDaoImpl usuarioDao = new UsuarioDaoImpl();
+                    
+                    // Aquí puedes hacer lo que desees con el nickname y el puntaje, como mostrarlo en algún otro lugar.
+
+                    // Mostrar mensaje de juego completado con el puntaje y la cantidad de errores
+                    int errores = score.getErrores();
+                    Alert alertaPuntaje = new Alert(AlertType.INFORMATION);
+                    alertaPuntaje.setTitle("Puntaje");
+                    alertaPuntaje.setHeaderText(null);
+                    alertaPuntaje.setContentText("Felicidades " + nickname + ". Tu puntaje es de: " + score.getPuntaje() + " puntos.\nCantidad de errores: " + errores);
+                    alertaPuntaje.showAndWait();
+                    usuarioDao.insertarUsuario(usuario);
+                    setRoot("iniciofx");
+                } else {
+                    // Mostrar mensaje de error de validación de nickname
+                    Alert alertaError = new Alert(AlertType.ERROR);
+                    alertaError.setTitle("Error");
+                    alertaError.setHeaderText(null);
+                    alertaError.setContentText("El nickname debe tener al menos 3 caracteres y no contener caracteres especiales.");
+                    alertaError.showAndWait();
+                }
+            } else {
+                // El usuario canceló la operación
+                System.out.println("El usuario canceló la operación.");
+            }
         }
+    }
+
+    private static boolean validarNickname(String nickname) {
+        // Verificar que el nickname tenga al menos 3 caracteres y no contenga caracteres especiales
+        return nickname.length() >= 3 && nickname.matches("^[a-zA-Z0-9]+$");
     }
 
 }
