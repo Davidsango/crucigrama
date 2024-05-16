@@ -1,6 +1,7 @@
 package com.crucigramax.controllers;
 
 import com.crucigramax.model.Crucigrama;
+import com.crucigramax.model.Score;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -20,6 +21,7 @@ public class DificilfxController implements Initializable {
     @FXML
     private TextArea cajaPistas;
     private Crucigrama crucigrama;
+    private Score score;
 
     /**
      * Clase controladora FXML.
@@ -39,6 +41,7 @@ public class DificilfxController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
 
         crucigrama = App.crearCrucigrama();
+        score = App.crearScore();
 
         try {
             crucigrama.cargarMatriz(App.obtenerCrucigrama());
@@ -58,7 +61,7 @@ public class DificilfxController implements Initializable {
     @FXML
     private void validar(MouseEvent event) throws IOException {
         // Call the method from the Utility class
-        App.validarTextField(crucigrama.getMatriz(), gridPane);
+        App.validarTextField(crucigrama.getMatriz(), gridPane, score);
     }
 
 }

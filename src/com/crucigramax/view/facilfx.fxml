@@ -702,7 +702,7 @@
                         <Font name="Britannic Bold" size="16.0" />
                     </font>
                 </Button>
-            <Button alignment="CENTER" layoutX="469.0" layoutY="508.0" mnemonicParsing="false" text="AYUDA" AnchorPane.bottomAnchor="38.0">
+            <Button alignment="CENTER" layoutX="469.0" layoutY="508.0" mnemonicParsing="false" onMouseClicked="#ayuda" text="AYUDA" AnchorPane.bottomAnchor="38.0">
                <font>
                   <Font name="Britannic Bold" size="16.0" />
                </font>

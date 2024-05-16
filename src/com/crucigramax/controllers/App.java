@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
@@ -32,6 +33,7 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import javafx.util.Pair;
 
 /**
  * Clase principal de la aplicación.
@@ -45,9 +47,7 @@ import javafx.stage.Stage;
 public class App extends Application {
 
     private static Scene scene;
-    private static Score score = new Score(); // Instancia de Score
-
-    
+    // Instancia de Score
 
     /**
      * Inicializa la aplicación y carga la vista de inicio.
@@ -131,6 +131,14 @@ public class App extends Application {
         return new Crucigrama(matriz, preguntas, listaVerticales, listaHorizontales);
     }
 
+    public static Score crearScore() {
+
+        int contadorErrores = 0;
+        int contadorAyudas = 0;
+        int finalScore = 100;
+        return new Score(contadorErrores, contadorAyudas, finalScore);
+    }
+
     /**
      * Aplica la validación a un TextField para permitir solo un carácter
      * alfabético.
@@ -141,13 +149,6 @@ public class App extends Application {
         textField.textProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
             if (newValue.length() > 1 || (!newValue.isEmpty() && !newValue.matches("[A-Za-z]"))) {
                 textField.setText(oldValue);
-                // Mostrar un mensaje de error
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error de entrada");
-                alert.setHeaderText(null);
-                alert.setContentText("Por favor, ingrese solo un carácter alfabético.");
-
-                alert.showAndWait();
             }
         });
     }
@@ -178,8 +179,8 @@ public class App extends Application {
                         clearLabel(textField);
                     } else {
                         textField.setEditable(true);
-                        // Testing purposes only:
-                        textField.setText(String.valueOf(character));
+                        // Quitar comentario solo para pruebas:
+                        //textField.setText(String.valueOf(character));
                         textField.setStyle("");
                     }
                 }
@@ -395,7 +396,7 @@ public class App extends Application {
      * @return El nodo encontrado, o null si no se encuentra ningún nodo con los
      * índices especificados.
      */
-    private static Node obtenerNodoPorIndiceFilaColumna(final int fila, final int columna, GridPane gridPane) {
+    public static Node obtenerNodoPorIndiceFilaColumna(final int fila, final int columna, GridPane gridPane) {
         Node resultado = null;
         ObservableList<Node> hijos = gridPane.getChildren();
 
@@ -407,7 +408,6 @@ public class App extends Application {
                 break;
             }
         }
-
         return resultado;
     }
 
@@ -420,10 +420,11 @@ public class App extends Application {
      * @param matriz La matriz de caracteres con la que se compararán los
      * TextField.
      * @param gridPane El GridPane que contiene los TextField a validar.
+     * @param score El objeto donde se almacenará el puntaje
+     * @throws java.io.IOException
      */
-public static void validarTextField(char[][] matriz, GridPane gridPane) throws IOException {
-        boolean todosCamposCorrectos = true; // Bandera para verificar si todos los campos no vacíos están correctos
-
+    public static void validarTextField(char[][] matriz, GridPane gridPane, Score score) throws IOException {
+        boolean todosCamposCorrectos = true; // Variable para verificar si todos los campos no vacíos están correctos
         // Iterar sobre cada celda de la matriz y su TextField correspondiente en el GridPane
         for (int fila = 0; fila < matriz.length; fila++) {
             for (int columna = 0; columna < matriz[fila].length; columna++) {
@@ -439,89 +440,203 @@ public static void validarTextField(char[][] matriz, GridPane gridPane) throws I
                             if (textoTextField.charAt(0) == caracter) {
                                 // El contenido del TextField es igual al de la matriz
                                 textField.setStyle("-fx-background-color: #32CD32;");
+                                textField.setEditable(false); // Establecer el TextField como no editable
                             } else {
                                 // El contenido del TextField es diferente al de la matriz
                                 textField.setStyle("-fx-background-color: red;");
                                 todosCamposCorrectos = false; // Al menos un campo no está correcto
-
                                 // Incrementar contador de errores y recalcular puntaje
-                                score.incrementarErrores();
-
-                                // Mostrar mensaje de error
-                                Alert alertaError = new Alert(AlertType.ERROR);
-                                alertaError.setTitle("Error");
-                                alertaError.setHeaderText(null);
-                                alertaError.setContentText("¡La palabra ingresada no es correcta!");
-                                alertaError.showAndWait();
+                                score.setContadorErrores(score.getContadorErrores() + 1);
                             }
                         } else {
                             // El carácter en la matriz es '?', se ignora
                             textField.setStyle(""); // Restablecer estilo
                         }
                     } else if (caracter != '?') {
-                        // El TextField está vacío y el carácter en la matriz no es '?', se marca como incorrecto
-                        textField.setStyle("-fx-background-color: red;");
+                        /* El TextField está vacío y el carácter en la matriz no es '?'
+                    // no se marca como incorrecto
+                    // pero aun faltan valores por ingresar
+                         */
                         todosCamposCorrectos = false;
                     }
                 }
             }
         }
-
-        // Verificar si todos los campos no vacíos están correctos
+        //Si todos los campos son correctos, actualiza puntaje en base de datos
         if (todosCamposCorrectos) {
-            // Mostrar mensaje de juego completado
-            Alert alerta = new Alert(AlertType.INFORMATION);
-            alerta.setTitle("Juego completado");
-            alerta.setHeaderText(null);
-            alerta.setContentText("¡Felicidades! Has completado el juego.");
-            alerta.showAndWait();
+            mostrarMensajeJuegoCompletado(score);
+        }
+    }
 
-            TextInputDialog dialog = new TextInputDialog();
-            dialog.setTitle("Ingresar Nickname");
-            dialog.setHeaderText(null);
-            dialog.setContentText("Por favor, ingresa tu nickname:");
+    /**
+     * Muestra un mensaje de juego completado y solicita al usuario que ingrese
+     * su nickname. Si el usuario proporciona un nickname válido, se crea un
+     * objeto Usuario con el nickname y el puntaje actual, y se guarda en la
+     * base de datos. Luego se muestra un mensaje con el puntaje final y la
+     * cantidad de errores y ayudas. Si el usuario cancela la operación, se
+     * muestra un mensaje en la consola.
+     *
+     * @param gridPane El panel de la cuadrícula donde se muestra el juego.
+     * @param score El objeto Score que contiene la puntuación actual del
+     * usuario.
+     * @throws IOException Si ocurre un error durante la ejecución del método.
+     */
+    private static void mostrarMensajeJuegoCompletado(Score score) throws IOException {
 
-            // Validar el nickname ingresado por el usuario
-            Optional<String> result = dialog.showAndWait();
-            String nickname = null;
+        // Mostrar mensaje de juego completado
+        Alert alerta = new Alert(AlertType.INFORMATION);
+        alerta.setTitle("Juego completado");
+        alerta.setHeaderText(null);
+        alerta.setContentText("¡Felicidades! Has completado el juego.");
+        alerta.showAndWait();
 
-            if (result.isPresent()) {
-                nickname = result.get();
-                if (validarNickname(nickname)) {
-                    // Crear una instancia de Usuario y establecer el nickname
-                    Usuario usuario = new Usuario(nickname, score); // Suponiendo que el puntaje es una lista de Score
-                    // Llamar al método insertarUsuario del UsuarioDaoImpl para guardar el usuario y el puntaje en la base de datos
-                    UsuarioDaoImpl usuarioDao = new UsuarioDaoImpl();
-                    
-                    // Aquí puedes hacer lo que desees con el nickname y el puntaje, como mostrarlo en algún otro lugar.
+        // Solicitar al usuario que ingrese su nickname
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Ingresar Nickname");
+        dialog.setHeaderText(null);
+        dialog.setContentText("Por favor, ingresa tu nickname:");
+        Optional<String> result = dialog.showAndWait();
+        String nickname;
 
-                    // Mostrar mensaje de juego completado con el puntaje y la cantidad de errores
-                    int errores = score.getErrores();
-                    Alert alertaPuntaje = new Alert(AlertType.INFORMATION);
-                    alertaPuntaje.setTitle("Puntaje");
-                    alertaPuntaje.setHeaderText(null);
-                    alertaPuntaje.setContentText("Felicidades " + nickname + ". Tu puntaje es de: " + score.getPuntaje() + " puntos.\nCantidad de errores: " + errores);
-                    alertaPuntaje.showAndWait();
-                    usuarioDao.insertarUsuario(usuario);
-                    setRoot("iniciofx");
-                } else {
-                    // Mostrar mensaje de error de validación de nickname
-                    Alert alertaError = new Alert(AlertType.ERROR);
-                    alertaError.setTitle("Error");
-                    alertaError.setHeaderText(null);
-                    alertaError.setContentText("El nickname debe tener al menos 3 caracteres y no contener caracteres especiales.");
-                    alertaError.showAndWait();
-                }
+        // Verificar si el usuario proporciona un nickname válido
+        if (result.isPresent()) {
+            nickname = result.get();
+            if (validarNickname(nickname)) {
+                // Crear un objeto Usuario con el nickname y el puntaje actual
+                Usuario usuario = new Usuario(nickname, score);
+                UsuarioDaoImpl usuarioDao = new UsuarioDaoImpl();
+
+                // Mostrar mensaje de puntaje final y cantidad de errores y ayudas
+                Alert alertaPuntaje = new Alert(AlertType.INFORMATION);
+                alertaPuntaje.setTitle("Puntaje");
+                alertaPuntaje.setHeaderText(null);
+                score.calcularPuntaje();
+                alertaPuntaje.setContentText("Felicidades " + nickname + ". Tu puntaje es de: " + score.getPuntajeFinal() + " puntos.\nCantidad de errores: " + score.getContadorErrores() + "\nCantidad de ayudas: " + score.getContadorAyudas());
+                alertaPuntaje.showAndWait();
+
+                // Insertar el usuario en la base de datos
+                usuarioDao.insertarUsuario(usuario);
+                setRoot("iniciofx");
             } else {
-                // El usuario canceló la operación
-                System.out.println("El usuario canceló la operación.");
+                // Mostrar mensaje de error si el nickname no es válido
+                Alert alertaError = new Alert(AlertType.ERROR);
+                alertaError.setTitle("Error");
+                alertaError.setHeaderText(null);
+                alertaError.setContentText("El nickname debe tener al menos 3 caracteres y no contener caracteres especiales.");
+                alertaError.showAndWait();
             }
+        } else {
+            // El usuario canceló la operación
+            System.out.println("El usuario canceló la operación.");
         }
     }
 
     private static boolean validarNickname(String nickname) {
         // Verificar que el nickname tenga al menos 3 caracteres y no contenga caracteres especiales
         return nickname.length() >= 3 && nickname.matches("^[a-zA-Z0-9]+$");
+    }
+
+/**
+ * Muestra posiciones aleatorias de una matriz en un GridPane.
+ * 
+ * @param matriz    La matriz de caracteres de la que se seleccionarán las posiciones.
+ * @param gridPane  El GridPane en el que se mostrarán las posiciones.
+ * @param posiciones    El número de posiciones aleatorias que se mostrarán.
+ */
+    public static void mostrarPosicionesAleatorias(char[][] matriz, GridPane gridPane, int posiciones) {
+        Random random = new Random();
+
+        int posicionesAsignadas = 0;
+        int fila, columna;
+        // Obtener las posiciones ocupadas en el GridPane
+        List<Pair<Integer, Integer>> posicionesOcupadas = obtenerPosicionesOcupadas(gridPane);
+
+        // Verificar si no se encontraron posiciones vacías en el GridPane
+        if (letrasIgualesAPosicionesOcupadas(matriz, gridPane)) {
+            //System.out.println("No hay posiciones vacías en el GridPane. El método terminará.");
+        } else {
+            // Mientras no se hayan asignado todas las posiciones requeridas
+            while (posicionesAsignadas < posiciones) {
+                fila = random.nextInt(matriz.length);
+                columna = random.nextInt(matriz[0].length);
+
+                // Verificar si la posición en la matriz no es '?' y si no está en la lista de posiciones ocupadas
+                if (matriz[fila][columna] != '?' && !posicionesOcupadas.contains(new Pair<>(fila, columna))) {
+                    // Obtener el StackPane en la posición correspondiente del GridPane
+                    StackPane stackPane = (StackPane) obtenerNodoPorIndiceFilaColumna(fila, columna, gridPane);
+
+                    // Verificar si el StackPane contiene un TextField
+                    if (stackPane != null) {
+                        // Obtener el TextField existente o crear uno nuevo si no hay ninguno
+                        TextField textField;
+                        if (stackPane.getChildren().isEmpty()) {
+                            textField = new TextField();
+                            textField.setEditable(false);
+                            stackPane.getChildren().add(textField);
+                        } else {
+                            textField = (TextField) stackPane.getChildren().get(0);
+                        }
+
+                        // Establecer el texto en el TextField
+                        textField.setText(String.valueOf(matriz[fila][columna]));
+
+                        // Incrementar el contador de posiciones asignadas
+                        posicionesAsignadas++;
+
+                        // Actualizar la lista de posiciones ocupadas
+                        posicionesOcupadas.add(new Pair<>(fila, columna));
+                    }
+                }
+            }
+        }
+    }
+/**
+ * Obtiene las posiciones ocupadas en un GridPane.
+ * 
+ * @param gridPane  El GridPane del que se obtendrán las posiciones ocupadas.
+ * @return  Una lista de pares (fila, columna) que representan las posiciones ocupadas.
+ */
+    public static List<Pair<Integer, Integer>> obtenerPosicionesOcupadas(GridPane gridPane) {
+        List<Pair<Integer, Integer>> posicionesOcupadas = new ArrayList<>();
+
+        for (Node node : gridPane.getChildren()) {
+            if (node instanceof StackPane stackPane) {
+                if (!stackPane.getChildren().isEmpty() && stackPane.getChildren().get(0) instanceof TextField) {
+                    TextField textField = (TextField) stackPane.getChildren().get(0);
+                    if (!textField.getText().isEmpty()) {
+                        int rowIndex = GridPane.getRowIndex(stackPane);
+                        int colIndex = GridPane.getColumnIndex(stackPane);
+                        posicionesOcupadas.add(new Pair<>(rowIndex, colIndex));
+                    }
+                }
+            }
+        }
+
+        return posicionesOcupadas;
+    }
+    /**
+     * Verifica si el número de letras diferentes a '?' en la matriz es igual al número de posiciones ocupadas en el GridPane.
+     * 
+     * @param matriz    La matriz de caracteres que se comparará.
+     * @param gridPane  El GridPane del que se obtendrá el número de posiciones ocupadas.
+     * @return  true si el número de letras contadas es igual al número de posiciones ocupadas;
+     * de lo contrario, false.
+     */
+    public static boolean letrasIgualesAPosicionesOcupadas(char[][] matriz, GridPane gridPane) {
+        int letrasContadas = 0;
+
+        // Contar las letras diferentes a '?' en la matriz
+        for (char[] fila : matriz) {
+            for (char c : fila) {
+                if (c != '?') {
+                    letrasContadas++;
+                }
+            }
+        }
+        // Obtener el número de posiciones ocupadas en el GridPane
+        int posicionesOcupadas = obtenerPosicionesOcupadas(gridPane).size();
+        // Validar si el número de letras contadas es igual al número de posiciones ocupadas
+        return letrasContadas == posicionesOcupadas;
     }
 
 }

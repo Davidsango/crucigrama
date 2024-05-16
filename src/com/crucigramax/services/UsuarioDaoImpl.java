@@ -44,7 +44,7 @@ public class UsuarioDaoImpl implements UsuarioDao {
             // Preparar la consulta para insertar el puntaje
             statement = connection.prepareStatement(sql);
             statement.setInt(1, userId);
-            statement.setInt(2, usuario.getScore().getPuntaje());
+            statement.setInt(2, usuario.getScore().getPuntajeFinal());
             
 
             // Ejecutar la consulta para insertar el puntaje
