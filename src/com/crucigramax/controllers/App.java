@@ -180,7 +180,7 @@ public class App extends Application {
                     } else {
                         textField.setEditable(true);
                         // Quitar comentario solo para pruebas:
-                        textField.setText(String.valueOf(character));
+                        //textField.setText(String.valueOf(character));
                         textField.setStyle("");
                     }
                 }
@@ -495,43 +495,50 @@ public class App extends Application {
         dialog.setTitle("Ingresar Nickname");
         dialog.setHeaderText(null);
         dialog.setContentText("Por favor, ingresa tu nickname:");
-        Optional<String> result = dialog.showAndWait();
         String nickname;
         List<Score> scoreList = new ArrayList<>();
         scoreList.add(score);
+        do {
+            // Obtener el nickname del usuario
+            Optional<String> result = dialog.showAndWait();
 
-        // Verificar si el usuario proporciona un nickname válido
-        if (result.isPresent()) {
-            nickname = result.get();
-            if (validarNickname(nickname)) {
-                // Crear un objeto Usuario con el nickname y el puntaje actual
-                Usuario usuario = new Usuario(nickname, scoreList);
+            // Verificar si el usuario proporcionó un nickname válido
+            if (result.isPresent()) {
+                nickname = result.get();
 
-                UsuarioDaoImpl usuarioDao = new UsuarioDaoImpl();
+                if (validarNickname(nickname)) {
+                    // Crear un objeto Usuario con el nickname y el puntaje actual
+                    Usuario usuario = new Usuario(nickname, scoreList);
 
-                // Mostrar mensaje de puntaje final y cantidad de errores y ayudas
-                Alert alertaPuntaje = new Alert(AlertType.INFORMATION);
-                alertaPuntaje.setTitle("Puntaje");
-                alertaPuntaje.setHeaderText(null);
-                score.calcularPuntaje();
-                alertaPuntaje.setContentText("Felicidades " + nickname + ". Tu puntaje es de: " + score.getPuntajeFinal() + " puntos.\nCantidad de errores: " + score.getContadorErrores() + "\nCantidad de ayudas: " + score.getContadorAyudas());
-                alertaPuntaje.showAndWait();
+                    UsuarioDaoImpl usuarioDao = new UsuarioDaoImpl();
 
-                // Insertar el usuario en la base de datos
-                usuarioDao.insertarUsuario(usuario);
-                setRoot("iniciofx");
+                    // Mostrar mensaje de puntaje final y cantidad de errores y ayudas
+                    Alert alertaPuntaje = new Alert(AlertType.INFORMATION);
+                    alertaPuntaje.setTitle("Puntaje");
+                    alertaPuntaje.setHeaderText(null);
+                    score.calcularPuntaje();
+                    alertaPuntaje.setContentText("Felicidades " + nickname + ". Tu puntaje es de: " + score.getPuntajeFinal() + " puntos.\nCantidad de errores: " + score.getContadorErrores() + "\nCantidad de ayudas: " + score.getContadorAyudas());
+                    alertaPuntaje.showAndWait();
+
+                    // Insertar el usuario en la base de datos
+                    usuarioDao.insertarUsuario(usuario);
+                    setRoot("iniciofx");
+                    break;
+                } else {
+                    // Mostrar mensaje de error si el nickname no es válido
+                    Alert alertaError = new Alert(AlertType.ERROR);
+                    alertaError.setTitle("Error");
+                    alertaError.setHeaderText(null);
+                    alertaError.setContentText("El nickname debe tener al menos 3 caracteres y no contener caracteres especiales.");
+                    alertaError.showAndWait();
+                }
             } else {
-                // Mostrar mensaje de error si el nickname no es válido
-                Alert alertaError = new Alert(AlertType.ERROR);
-                alertaError.setTitle("Error");
-                alertaError.setHeaderText(null);
-                alertaError.setContentText("El nickname debe tener al menos 3 caracteres y no contener caracteres especiales.");
-                alertaError.showAndWait();
+                // Terminar el ciclo si el usuario cierra la ventana o selecciona cancelar
+                setRoot("nivelesfx");
+                break;
             }
-        } else {
-            // El usuario canceló la operación
-            System.out.println("El usuario canceló la operación.");
-        }
+        } while (true);
+
     }
 
     private static boolean validarNickname(String nickname) {
