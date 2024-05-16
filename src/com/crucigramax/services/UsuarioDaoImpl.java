@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import com.crucigramax.model.Usuario;
-//import com.crucigramax.model.Score;
+import com.crucigramax.model.Score;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
@@ -14,48 +14,69 @@ public class UsuarioDaoImpl implements UsuarioDao {
     public void insertarUsuario(Usuario usuario) {
         Connection connection = null;
         PreparedStatement statement = null;
+        ResultSet resultSet = null;
 
         try {
             // Establecer conexión a la base de datos
             connection = Conexion.conectar();
 
-            // Consulta SQL para insertar el usuario en la base de datos
-            String sql = "INSERT INTO usuarios (nickname) VALUES (?)";
+            // Consulta SQL para buscar el usuario por nickname
+            String sqlSelectUsuario = "SELECT id FROM usuarios WHERE nickname = ?";
 
-            // Preparar la consulta para insertar el usuario
-            statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            // Preparar la consulta para buscar el usuario por nickname
+            statement = connection.prepareStatement(sqlSelectUsuario);
             statement.setString(1, usuario.getNickname());
 
-            // Ejecutar la consulta para insertar el usuario
-            statement.executeUpdate();
+            // Ejecutar la consulta para buscar el usuario por nickname
+            resultSet = statement.executeQuery();
 
-            // Obtener el ID del usuario insertado
-            ResultSet generatedKeys = statement.getGeneratedKeys();
-            int userId = -1;
-            if (generatedKeys.next()) {
-                userId = generatedKeys.getInt(1);
+            int userId;
+            if (resultSet.next()) {
+                // Si el usuario ya existe, obtener su ID
+                userId = resultSet.getInt("id");
             } else {
-                throw new SQLException("Error al obtener el ID del usuario insertado.");
+                // Si el usuario no existe, insertarlo en la base de datos
+                String sqlInsertUsuario = "INSERT INTO usuarios (nickname) VALUES (?)";
+
+                statement = connection.prepareStatement(sqlInsertUsuario, Statement.RETURN_GENERATED_KEYS);
+                statement.setString(1, usuario.getNickname());
+
+                // Ejecutar la consulta para insertar el usuario
+                statement.executeUpdate();
+
+                // Obtener el ID del usuario insertado
+                resultSet = statement.getGeneratedKeys();
+                if (resultSet.next()) {
+                    userId = resultSet.getInt(1);
+                } else {
+                    throw new SQLException("Error al obtener el ID del usuario insertado.");
+                }
             }
 
-            // Consulta SQL para insertar el puntaje del usuario en la base de datos
-            sql = "INSERT INTO puntajes (usuario_id, puntaje) VALUES (?, ?)";
+            // Consulta SQL para insertar los puntajes del usuario en la base de datos
+            String sqlPuntaje = "INSERT INTO puntajes (usuario_id, puntaje) VALUES (?, ?)";
 
             // Preparar la consulta para insertar el puntaje
-            statement = connection.prepareStatement(sql);
-            statement.setInt(1, userId);
-            statement.setInt(2, usuario.getScore().getPuntajeFinal());
-            
+            statement = connection.prepareStatement(sqlPuntaje);
 
-            // Ejecutar la consulta para insertar el puntaje
-            statement.executeUpdate();
+            for (Score score : usuario.getScore()) {
+                statement.setInt(1, userId);
+                statement.setInt(2, score.getPuntajeFinal());
+                statement.addBatch();
+            }
 
-            System.out.println("Usuario y puntaje insertados correctamente en la base de datos.");
+            // Ejecutar la consulta para insertar los puntajes
+            statement.executeBatch();
+
+            System.out.println("Usuario y puntajes insertados correctamente en la base de datos.");
         } catch (SQLException e) {
-            System.out.println("Error al insertar usuario y puntaje en la base de datos: " + e.getMessage());
+            System.out.println("Error al insertar usuario y puntajes en la base de datos: " + e.getMessage());
         } finally {
-            // Cerrar la conexión y el PreparedStatement
+            // Cerrar la conexión, el PreparedStatement y el ResultSet
             try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
                 if (statement != null) {
                     statement.close();
                 }
@@ -67,5 +88,5 @@ public class UsuarioDaoImpl implements UsuarioDao {
             }
         }
     }
-}
 
+}

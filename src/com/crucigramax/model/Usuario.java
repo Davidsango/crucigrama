@@ -1,12 +1,15 @@
 package com.crucigramax.model;
 
+
+import java.util.List;
+
 public class Usuario {
     private String nickname;
-    private Score score;
+    private List<Score> scores; 
 
-   public Usuario(String nickname, Score score) {
+    public Usuario(String nickname, List<Score> scores) { 
         this.nickname = nickname;
-        this.score = score;
+        this.scores = scores;
     }
 
     public String getNickname() {
@@ -17,11 +20,11 @@ public class Usuario {
         this.nickname = nickname;
     }
 
-    public Score getScore() {
-        return score;
+    public List<Score> getScore() { 
+        return scores;
     }
 
-    public void setScore(Score score) {
-        this.score = score;
+    public void setScores(List<Score> scores) { 
+        this.scores = scores;
     }
 }

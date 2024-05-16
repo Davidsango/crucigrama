@@ -180,7 +180,7 @@ public class App extends Application {
                     } else {
                         textField.setEditable(true);
                         // Quitar comentario solo para pruebas:
-                        //textField.setText(String.valueOf(character));
+                        textField.setText(String.valueOf(character));
                         textField.setStyle("");
                     }
                 }
@@ -497,13 +497,16 @@ public class App extends Application {
         dialog.setContentText("Por favor, ingresa tu nickname:");
         Optional<String> result = dialog.showAndWait();
         String nickname;
+        List<Score> scoreList = new ArrayList<>();
+        scoreList.add(score);
 
         // Verificar si el usuario proporciona un nickname válido
         if (result.isPresent()) {
             nickname = result.get();
             if (validarNickname(nickname)) {
                 // Crear un objeto Usuario con el nickname y el puntaje actual
-                Usuario usuario = new Usuario(nickname, score);
+                Usuario usuario = new Usuario(nickname, scoreList);
+
                 UsuarioDaoImpl usuarioDao = new UsuarioDaoImpl();
 
                 // Mostrar mensaje de puntaje final y cantidad de errores y ayudas
@@ -536,13 +539,14 @@ public class App extends Application {
         return nickname.length() >= 3 && nickname.matches("^[a-zA-Z0-9]+$");
     }
 
-/**
- * Muestra posiciones aleatorias de una matriz en un GridPane.
- * 
- * @param matriz    La matriz de caracteres de la que se seleccionarán las posiciones.
- * @param gridPane  El GridPane en el que se mostrarán las posiciones.
- * @param posiciones    El número de posiciones aleatorias que se mostrarán.
- */
+    /**
+     * Muestra posiciones aleatorias de una matriz en un GridPane.
+     *
+     * @param matriz La matriz de caracteres de la que se seleccionarán las
+     * posiciones.
+     * @param gridPane El GridPane en el que se mostrarán las posiciones.
+     * @param posiciones El número de posiciones aleatorias que se mostrarán.
+     */
     public static void mostrarPosicionesAleatorias(char[][] matriz, GridPane gridPane, int posiciones) {
         Random random = new Random();
 
@@ -590,12 +594,14 @@ public class App extends Application {
             }
         }
     }
-/**
- * Obtiene las posiciones ocupadas en un GridPane.
- * 
- * @param gridPane  El GridPane del que se obtendrán las posiciones ocupadas.
- * @return  Una lista de pares (fila, columna) que representan las posiciones ocupadas.
- */
+
+    /**
+     * Obtiene las posiciones ocupadas en un GridPane.
+     *
+     * @param gridPane El GridPane del que se obtendrán las posiciones ocupadas.
+     * @return Una lista de pares (fila, columna) que representan las posiciones
+     * ocupadas.
+     */
     public static List<Pair<Integer, Integer>> obtenerPosicionesOcupadas(GridPane gridPane) {
         List<Pair<Integer, Integer>> posicionesOcupadas = new ArrayList<>();
 
@@ -614,13 +620,16 @@ public class App extends Application {
 
         return posicionesOcupadas;
     }
+
     /**
-     * Verifica si el número de letras diferentes a '?' en la matriz es igual al número de posiciones ocupadas en el GridPane.
-     * 
-     * @param matriz    La matriz de caracteres que se comparará.
-     * @param gridPane  El GridPane del que se obtendrá el número de posiciones ocupadas.
-     * @return  true si el número de letras contadas es igual al número de posiciones ocupadas;
-     * de lo contrario, false.
+     * Verifica si el número de letras diferentes a '?' en la matriz es igual al
+     * número de posiciones ocupadas en el GridPane.
+     *
+     * @param matriz La matriz de caracteres que se comparará.
+     * @param gridPane El GridPane del que se obtendrá el número de posiciones
+     * ocupadas.
+     * @return true si el número de letras contadas es igual al número de
+     * posiciones ocupadas; de lo contrario, false.
      */
     public static boolean letrasIgualesAPosicionesOcupadas(char[][] matriz, GridPane gridPane) {
         int letrasContadas = 0;
