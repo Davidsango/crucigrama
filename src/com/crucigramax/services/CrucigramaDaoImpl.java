@@ -6,29 +6,31 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 /**
- * Implementación concreta de la interfaz CrucigramaDao que proporciona métodos para interactuar con la base de datos
- * y obtener información relacionada con crucigramas.
+ * Implementación concreta de la interfaz CrucigramaDao que proporciona métodos
+ * para interactuar con la base de datos y obtener información relacionada con
+ * crucigramas.
  */
-public class CrucigramaDaoImpl extends Conexion implements CrucigramaDao{
-    
-    private Connection connection;
+public class CrucigramaDaoImpl extends Conexion implements CrucigramaDao {
+
+    private final Connection connection;
 
     /**
      * Constructor de la clase CrucigramaDAOImp.
      *
-     * @param connection La conexión a la base de datos que se utilizará para ejecutar las consultas.
+     * @param connection La conexión a la base de datos que se utilizará para
+     * ejecutar las consultas.
      */
-    public  CrucigramaDaoImpl(Connection connection) {
+    public CrucigramaDaoImpl(Connection connection) {
         this.connection = connection;
     }
-    
+
     /**
      * Método para cargar un crucigrama aleatorio desde la base de datos.
      *
      * @return Una cadena que representa el crucigrama cargado.
      */
-    
-    public String cargarCrucigramaAleatorio() {
+    @Override
+public String cargarCrucigramaAleatorio() {
         String datosCrucigrama = null;
         String query = "SELECT crucigrama FROM crucigramas ORDER BY RANDOM() LIMIT 1";
         try (PreparedStatement pstmt = connection.prepareStatement(query);
@@ -46,13 +48,14 @@ public class CrucigramaDaoImpl extends Conexion implements CrucigramaDao{
      * Método para buscar la definición de una palabra en la base de datos.
      *
      * @param respuesta La palabra cuya definición se desea buscar.
-     * @return El enunciado de la palabra especificada, o un mensaje de error si la definición no se encuentra.
+     * @return El enunciado de la palabra especificada, o un mensaje de error si
+     * la definición no se encuentra.
      */
-    
+    @Override
     public String buscarDefinicion(String respuesta) {
         String enunciado = "Enunciado no encontrada para: " + respuesta;
         respuesta = respuesta.toUpperCase();
-       String query = "SELECT enunciado FROM diccionario WHERE respuesta = ?";
+        String query = "SELECT enunciado FROM diccionario WHERE respuesta = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setString(1, respuesta);
             try (ResultSet rs = pstmt.executeQuery()) {

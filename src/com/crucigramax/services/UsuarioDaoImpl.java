@@ -11,15 +11,16 @@ import com.crucigramax.model.Usuario;
 import com.crucigramax.model.Score;
 
 /**
- * Implementación de la interfaz UsuarioDao para interactuar con la base de datos.
+ * Implementación de la interfaz UsuarioDao para interactuar con la base de
+ * datos.
  */
 public class UsuarioDaoImpl implements UsuarioDao {
+
     /**
      * Inserta un nuevo usuario en la base de datos junto con sus puntajes.
-     * 
+     *
      * @param usuario El usuario a insertar en la base de datos.
      */
-  
     @Override
     public void insertarUsuario(Usuario usuario) {
         Connection connection = null;
@@ -99,23 +100,21 @@ public class UsuarioDaoImpl implements UsuarioDao {
         }
     }
 
-   /**
+    /**
      * Obtiene y ordena los puntajes de los usuarios.
      *
-     * @return Una lista de usuarios con sus puntajes, ordenada por puntaje descendente.
+     * @return Una lista de usuarios con sus puntajes, ordenada por puntaje
+     * descendente.
      */
-    
     @Override
     public List<Usuario> obtenerPuntajesOrdenados() {
         List<Usuario> usuariosConPuntajes = new ArrayList<>();
-        String sql = "SELECT u.nickname, p.puntaje " +
-                     "FROM usuarios u " +
-                     "JOIN puntajes p ON u.id = p.usuario_id " +
-                     "ORDER BY p.puntaje DESC";
-
-        try (Connection connection = Conexion.conectar();
-             PreparedStatement statement = connection.prepareStatement(sql);
-             ResultSet resultSet = statement.executeQuery()) {
+        String sql = "SELECT u.nickname, p.puntaje "
+                + "FROM usuarios u "
+                + "JOIN puntajes p ON u.id = p.usuario_id "
+                + "ORDER BY p.puntaje DESC "
+                + "LIMIT 10"; // Limitar la consulta a los 10 puntajes mayores
+        try (Connection connection = Conexion.conectar(); PreparedStatement statement = connection.prepareStatement(sql); ResultSet resultSet = statement.executeQuery()) {
 
             while (resultSet.next()) {
                 String nickname = resultSet.getString("nickname");

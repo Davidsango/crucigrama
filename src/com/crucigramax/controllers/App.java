@@ -174,8 +174,14 @@ public class App extends Application {
                     char character = matrix[row][col];
                     textField.setText("");
                     if (character == '?') {
+                        /*Modifica los siguientes atributes del TextField cuando sea ?
+                        // setEditable: el usuario no puede ingresar nada en este campo
+                        // setStyle: este recuadro queda de color negro
+                        // SetFocusTraversable: al hacer TAB se salta este TextField
+                         */
                         textField.setEditable(false);
                         textField.setStyle("-fx-background-color: black;");
+                        textField.setFocusTraversable(false);
                         clearLabel(textField);
                     } else {
                         textField.setEditable(true);
@@ -441,6 +447,7 @@ public class App extends Application {
                                 // El contenido del TextField es igual al de la matriz
                                 textField.setStyle("-fx-background-color: #32CD32;");
                                 textField.setEditable(false); // Establecer el TextField como no editable
+                                textField.setFocusTraversable(false); //al hacer TAB se saltará esta casilla
                             } else {
                                 // El contenido del TextField es diferente al de la matriz
                                 textField.setStyle("-fx-background-color: red;");
@@ -456,7 +463,9 @@ public class App extends Application {
                         /* El TextField está vacío y el carácter en la matriz no es '?'
                     // no se marca como incorrecto
                     // pero aun faltan valores por ingresar
+                    // también Restablecer estilo por si antes tenia un error y ahora está vacío
                          */
+                        textField.setStyle("");
                         todosCamposCorrectos = false;
                     }
                 }
@@ -500,50 +509,42 @@ public class App extends Application {
         List<Score> scoreList = new ArrayList<>();
         scoreList.add(score);
 
-        // Loop hasta que se obtenga un nickname válido
-        while (nickname == null || nickname.isEmpty()) {
+        do {
+// Obtener el nickname del usuario
             Optional<String> result = dialog.showAndWait();
 
-            // Verificar si el usuario proporcionó un nickname
+// Verificar si el usuario proporcionó un nickname válido
             if (result.isPresent()) {
                 nickname = result.get();
-
                 if (validarNickname(nickname)) {
                     // Crear un objeto Usuario con el nickname y el puntaje actual
                     Usuario usuario = new Usuario(nickname, scoreList);
-
                     UsuarioDaoImpl usuarioDao = new UsuarioDaoImpl();
-
                     // Mostrar mensaje de puntaje final y cantidad de errores y ayudas
-                    Alert alertaPuntaje = new Alert(Alert.AlertType.INFORMATION);
+                    Alert alertaPuntaje = new Alert(AlertType.INFORMATION);
                     alertaPuntaje.setTitle("Puntaje");
                     alertaPuntaje.setHeaderText(null);
                     score.calcularPuntaje();
                     alertaPuntaje.setContentText("Felicidades " + nickname + ". Tu puntaje es de: " + score.getPuntajeFinal() + " puntos.\nCantidad de errores: " + score.getContadorErrores() + "\nCantidad de ayudas: " + score.getContadorAyudas());
                     alertaPuntaje.showAndWait();
-
                     // Insertar el usuario en la base de datos
                     usuarioDao.insertarUsuario(usuario);
                     setRoot("iniciofx");
                     break;
                 } else {
                     // Mostrar mensaje de error si el nickname no es válido
-                    Alert alertaError = new Alert(Alert.AlertType.ERROR);
+                    Alert alertaError = new Alert(AlertType.ERROR);
                     alertaError.setTitle("Error");
                     alertaError.setHeaderText(null);
                     alertaError.setContentText("El nickname debe tener al menos 3 caracteres y no contener caracteres especiales.");
                     alertaError.showAndWait();
-                    nickname = null;  // Reset nickname to null to keep asking
                 }
             } else {
-                // Si el usuario cierra el diálogo, forzar el ciclo a continuar pidiendo un nickname
-                Alert alertaError = new Alert(Alert.AlertType.ERROR);
-                alertaError.setTitle("Error");
-                alertaError.setHeaderText(null);
-                alertaError.setContentText("Debe ingresar un nickname para continuar.");
-                alertaError.showAndWait();
+                // Terminar el ciclo si el usuario cierra la ventana o selecciona cancelar
+                setRoot("nivelesfx");
+                break;
             }
-        }
+        } while (true);
     }
 
     private static boolean validarNickname(String nickname) {
@@ -592,13 +593,11 @@ public class App extends Application {
                         } else {
                             textField = (TextField) stackPane.getChildren().get(0);
                         }
-
                         // Establecer el texto en el TextField
                         textField.setText(String.valueOf(matriz[fila][columna]));
-
+                        textField.setEditable(false);
                         // Incrementar el contador de posiciones asignadas
                         posicionesAsignadas++;
-
                         // Actualizar la lista de posiciones ocupadas
                         posicionesOcupadas.add(new Pair<>(fila, columna));
                     }
@@ -660,4 +659,22 @@ public class App extends Application {
         return letrasContadas == posicionesOcupadas;
     }
 
+    public static void mostrarAyuda(String titulo, String mensaje) {
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle(titulo);
+        alert.setHeaderText(null);
+
+        // Crear un TextArea para mostrar el mensaje
+        TextArea textArea = new TextArea();
+        textArea.setPrefWidth(600);
+        textArea.setPrefHeight(200);
+        textArea.setText(mensaje);
+        textArea.setWrapText(true); // Para que el texto se ajuste automáticamente al ancho del área de texto
+        textArea.setEditable(false); // Para que el texto no sea editable
+
+        // Establecer el contenido del mensaje como el TextArea
+        alert.getDialogPane().setContent(textArea);
+
+        alert.showAndWait();
+    }
 }

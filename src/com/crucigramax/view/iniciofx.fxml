@@ -16,14 +16,14 @@
       <menus>
         <Menu mnemonicParsing="false" text="Archivo">
           <items>
-            <MenuItem mnemonicParsing="false" text="Cerrar" onAction="#cerrar"/>
+            <MenuItem mnemonicParsing="false" onAction="#cerrar" text="Cerrar" />
             <SeparatorMenuItem mnemonicParsing="false" />
             <SeparatorMenuItem mnemonicParsing="false" />
           </items>
         </Menu>
         <Menu mnemonicParsing="false" text="Ayuda">
           <items>
-            <MenuItem fx:id="menuItemAcercaDe" mnemonicParsing="false" text="Acerca De..." />
+            <MenuItem fx:id="menuItemAcercaDe" mnemonicParsing="false" onAction="#acercaDe" text="Acerca De..." />
           </items>
         </Menu>
       </menus>

@@ -13,15 +13,9 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Priority;
-import javafx.stage.StageStyle;
 
 /**
  * Clase controladora FXML para el nivel medio.
@@ -41,9 +35,7 @@ public class MediofxController implements Initializable {
     private TextArea cajaPistas;
     private Crucigrama crucigrama;
     private Score score;
-    @FXML
-    private MenuItem menuItemAcercaDe;
-
+    
     /**
      * Inicializa el controlador después de que se haya cargado el archivo FXML.
      *
@@ -75,7 +67,6 @@ public class MediofxController implements Initializable {
         crucigrama.llenarListas(crucigrama.getMatriz());
         App.aplicarValidacionATextFields(gridPane);
         App.mostrarEnunciados(crucigrama.getListaHorizontales(), crucigrama.getListaVerticales(), cajaPistas);
-        menuItemAcercaDe.setOnAction(event -> mostrarDialogoAcercaDe());
     }
 
     /**
@@ -105,7 +96,7 @@ public class MediofxController implements Initializable {
     @FXML
     private void ayuda(MouseEvent event) throws IOException {
         // Verificar si las letras ingresadas son iguales a las posiciones ocupadas
-        if (!letrasIgualesAPosicionesOcupadas(crucigrama.getMatriz(), gridPane)) {
+        if (!App.letrasIgualesAPosicionesOcupadas(crucigrama.getMatriz(), gridPane)) {
             // Mostrar posiciones aleatorias en el crucigrama
             App.mostrarPosicionesAleatorias(crucigrama.getMatriz(), gridPane, 1);
             // Incrementar el contador de ayudas en el score
@@ -149,42 +140,17 @@ public class MediofxController implements Initializable {
      * Este método muestra un diálogo con información sobre el juego.
      * Proporciona detalles sobre el funcionamiento del juego en el nivel medio.
      */
-    private void mostrarDialogoAcercaDe() {
-        Dialog<String> dialog = new Dialog<>();
-        dialog.setTitle("Acerca De...");
-        dialog.setHeaderText(null);
-        dialog.initStyle(StageStyle.UTILITY);
-
-        // Contenido del diálogo
-        TextArea textArea = new TextArea();
-        textArea.setText("Descripción del juego:\n"
-                + "En el nivel medio, encontrará un tablero de 10*10 y comenzará con el puntaje en 100.\n"
-                + "Contará con ayudas de palabras descubiertas para facilitar la resolución del crucigrama.\n"
-                + "Al dar clic sobre 'Ayuda' puede solicitar más palabras.\n"
-                + "Al dar clic sobre 'Validar', se marcarán con color verde las palabras correctas y con color rojo las incorrectas.\n"
-                + "Por cada error perderá 5 puntos de su puntaje inicial.\n"
-                + "Cada ayuda solicitada restará 5 puntos de su puntaje inicial.\n"
-                + "Cuando termine de llenar el juego y esté correcto, debe ingresar su nickname, el cual no podrá tener caracteres especiales.\n"
-                + "Le será asignado un Score de acuerdo a los errores y ayudas utilizadas.");
-
-        textArea.setEditable(false);
-        textArea.setWrapText(true);
-
-        textArea.setMaxWidth(Double.MAX_VALUE);
-        textArea.setMaxHeight(Double.MAX_VALUE);
-        GridPane.setVgrow(textArea, Priority.ALWAYS);
-        GridPane.setHgrow(textArea, Priority.ALWAYS);
-
-        GridPane gridPane = new GridPane();
-        gridPane.add(textArea, 0, 0);
-
-        dialog.getDialogPane().setContent(gridPane);
-
-        // Botón de cierre
-        ButtonType closeButton = new ButtonType("Cerrar", ButtonBar.ButtonData.OK_DONE);
-        dialog.getDialogPane().getButtonTypes().add(closeButton);
-
-        // Mostrar el diálogo
-        dialog.showAndWait();
+    @FXML
+    private void acercaDe() {
+        App.mostrarAyuda("Ayuda", """
+        Descripci\u00f3n del juego:
+        En el nivel medio, encontrar\u00e1 un tablero de 10*10 y comenzar\u00e1 con el puntaje en 100.
+        Al dar clic sobre 'Ayuda' se revelar\u00e1 una letra aleatoria .
+        Al dar clic sobre 'Validar', se marcar\u00e1n con color verde las letras correctas y con color rojo las incorrectas.
+        Por cada error perder\u00e1 5 puntos de su puntaje inicial.
+        Cada ayuda solicitada restar\u00e1 5 puntos de su puntaje inicial.
+        Cuando termine de llenar el juego y est\u00e9 correcto, debe ingresar su nickname, el cual no podr\u00e1 tener caracteres especiales.
+        Le ser\u00e1 asignado un Score de acuerdo a los errores y ayudas utilizadas.
+        """);
     }
 }

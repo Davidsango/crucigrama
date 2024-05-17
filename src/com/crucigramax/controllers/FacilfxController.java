@@ -13,15 +13,9 @@ import javafx.application.Platform;
 import javafx.fxml.Initializable;
 import javafx.scene.input.MouseEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Priority;
 import javafx.event.ActionEvent;
-import javafx.stage.StageStyle;
 
 /**
  * Clase controladora FXML para el nivel Fácil.
@@ -41,8 +35,6 @@ public class FacilfxController implements Initializable {
     private TextArea cajaPistas;
     private Crucigrama crucigrama;
     private Score score;
-    @FXML
-    private MenuItem menuItemAcercaDe;
 
     /**
      * @param url
@@ -67,8 +59,6 @@ public class FacilfxController implements Initializable {
         App.aplicarValidacionATextFields(gridPane);
         App.mostrarEnunciados(crucigrama.getListaHorizontales(), crucigrama.getListaVerticales(), cajaPistas);
         App.mostrarPosicionesAleatorias(crucigrama.getMatriz(), gridPane, 20);
-        menuItemAcercaDe.setOnAction(event -> mostrarDialogoAcercaDe());
-
     }
 
     @FXML
@@ -80,7 +70,7 @@ public class FacilfxController implements Initializable {
     @FXML
     private void ayuda(MouseEvent event) throws IOException {
 
-        if (!letrasIgualesAPosicionesOcupadas(crucigrama.getMatriz(), gridPane)) {
+        if (!App.letrasIgualesAPosicionesOcupadas(crucigrama.getMatriz(), gridPane)) {
             App.mostrarPosicionesAleatorias(crucigrama.getMatriz(), gridPane, 1);
             score.setContadorAyudas(score.getContadorAyudas() + 1);
         }
@@ -104,42 +94,18 @@ public class FacilfxController implements Initializable {
      * Este método muestra un diálogo con información sobre el juego.
      * Proporciona detalles sobre el funcionamiento del juego en el nivel fácil.
      */
-    private void mostrarDialogoAcercaDe() {
-        Dialog<String> dialog = new Dialog<>();
-        dialog.setTitle("Acerca De...");
-        dialog.setHeaderText(null);
-        dialog.initStyle(StageStyle.UTILITY);
-
-        // Contenido del diálogo
-        TextArea textArea = new TextArea();
-        textArea.setText("Descripción del juego:\n"
-                + "En el nivel Fácil encontrará un tablero de 10*10 y comenzará con un puntaje de 100.\n"
-                + "En el habrán algunas palabras descubiertas para facilitar a la resolución del crucigrama.\n"
-                + "Al dar clic sobre 'Ayuda' puede solicitar más palabras.\n"
-                + "Al dar clic sobre 'Validar', se marcarán con color verde las palabras correctas y con color rojo las incorrectas.\n"
-                + "Por cada error perderá 5 puntos de su puntaje inicial.\n"
-                + "Cada ayuda solicitada restará 5 puntos de su puntaje inicial.\n"
-                + "Cuando termine de llenar el juego y esté correcto, debe ingresar su nickname, el cual no podrá tener caracteres especiales.\n"
-                + "Le será asignado un Score de acuerdo a los errores y ayudas utilizadas.");
-
-        textArea.setEditable(false);
-        textArea.setWrapText(true);
-
-        textArea.setMaxWidth(Double.MAX_VALUE);
-        textArea.setMaxHeight(Double.MAX_VALUE);
-        GridPane.setVgrow(textArea, Priority.ALWAYS);
-        GridPane.setHgrow(textArea, Priority.ALWAYS);
-
-        GridPane gridPane = new GridPane();
-        gridPane.add(textArea, 0, 0);
-
-        dialog.getDialogPane().setContent(gridPane);
-
-        // Botón de cierre
-        ButtonType closeButton = new ButtonType("Cerrar", ButtonData.OK_DONE);
-        dialog.getDialogPane().getButtonTypes().add(closeButton);
-
-        // Mostrar el diálogo
-        dialog.showAndWait();
-    }       
+    @FXML
+    private void acercaDe() {
+        App.mostrarAyuda("Ayuda", """
+            Descripci\u00f3n del juego:
+            En el nivel F\u00e1cil encontrar\u00e1 un tablero de 10*10 y comenzar\u00e1 con un puntaje de 100.
+            En el habr\u00e1n algunas letras descubiertas para facilitar a la resoluci\u00f3n del crucigrama.
+            Al dar clic sobre 'Ayuda' se revelar\u00e1 una letra de forma aleatoria.
+            Al dar clic sobre 'Validar', se marcar\u00e1n con color verde las letras correctas y con color rojo las incorrectas.
+            Por cada error perder\u00e1 5 puntos de su puntaje inicial.
+            Cada ayuda solicitada restar\u00e1 5 puntos de su puntaje inicial.
+            Cuando termine de llenar el juego y est\u00e9 correcto, debe ingresar su nickname, el cual no podr\u00e1 tener caracteres especiales.
+            Le ser\u00e1 asignado un Score de acuerdo a los errores y ayudas utilizadas.
+            """);
+    }
 }

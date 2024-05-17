@@ -12,15 +12,9 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Priority;
-import javafx.stage.StageStyle;
 
 /**
  * Clase controladora FXML para el nivel Difícil.
@@ -40,9 +34,7 @@ public class DificilfxController implements Initializable {
     @FXML
     private TextArea cajaPistas;
     private Crucigrama crucigrama;
-    private Score score;
-    @FXML
-    private MenuItem menuItemAcercaDe;
+    private Score score;    
 
     /**
      * Inicializa la vista y carga el crucigrama.
@@ -68,7 +60,7 @@ public class DificilfxController implements Initializable {
         crucigrama.llenarListas(crucigrama.getMatriz());
         App.aplicarValidacionATextFields(gridPane);
         App.mostrarEnunciados(crucigrama.getListaHorizontales(), crucigrama.getListaVerticales(), cajaPistas);
-        menuItemAcercaDe.setOnAction(event -> mostrarDialogoAcercaDe());
+
     }
 
     /**
@@ -112,38 +104,14 @@ public class DificilfxController implements Initializable {
      * Proporciona detalles sobre el funcionamiento del juego en el nivel
      * difícil.
      */
-    private void mostrarDialogoAcercaDe() {
-        Dialog<String> dialog = new Dialog<>();
-        dialog.setTitle("Acerca De...");
-        dialog.setHeaderText(null);
-        dialog.initStyle(StageStyle.UTILITY);
+    @FXML
+    private void acercaDe() {
+        App.mostrarAyuda("Ayuda", """
+                                  Descripci\u00f3n del juego:
+                                  En el nivel dif\u00edcil encontrar\u00e1 un tablero de 10*10 y comenzar\u00e1 con un puntaje de 100 puntos.
+                                  Este nivel no cuenta con ayudas, as\u00ed que el tablero estar\u00e1 totalmente vac\u00edo.
+                                  Deber\u00e1 tener cuidado cuando valide pues cada palabra incorrecta restar\u00e1 5 puntos al puntaje inicial.
+                                  Cuando termine el juego, debe asignar un nickname para asociarle un Score correspondiente.""");
 
-        // Contenido del diálogo
-        TextArea textArea = new TextArea();
-        textArea.setText("Descripción del juego:\n"
-                + "En el nivel difícil encontrará un tablero de 10*10 y comenzará con un puntaje de 100 puntos.\n"
-                + "Este nivel no cuenta con ayudas, así que el tablero estará totalmente vacío.\n"
-                + "Deberá tener cuidado cuando valide pues cada palabra incorrecta restará 5 puntos al puntaje inicial.\n"
-                + "Cuando termine el juego, debe asignar un nickname para asociarle un Score correspondiente.");
-
-        textArea.setEditable(false);
-        textArea.setWrapText(true);
-
-        textArea.setMaxWidth(Double.MAX_VALUE);
-        textArea.setMaxHeight(Double.MAX_VALUE);
-        GridPane.setVgrow(textArea, Priority.ALWAYS);
-        GridPane.setHgrow(textArea, Priority.ALWAYS);
-
-        GridPane gridPane = new GridPane();
-        gridPane.add(textArea, 0, 0);
-
-        dialog.getDialogPane().setContent(gridPane);
-
-        // Botón de cierre
-        ButtonType closeButton = new ButtonType("Cerrar", ButtonBar.ButtonData.OK_DONE);
-        dialog.getDialogPane().getButtonTypes().add(closeButton);
-
-        // Mostrar el diálogo
-        dialog.showAndWait();
     }
 }
