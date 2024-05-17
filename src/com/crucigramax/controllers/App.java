@@ -484,7 +484,7 @@ public class App extends Application {
     private static void mostrarMensajeJuegoCompletado(Score score) throws IOException {
 
         // Mostrar mensaje de juego completado
-        Alert alerta = new Alert(AlertType.INFORMATION);
+        Alert alerta = new Alert(Alert.AlertType.INFORMATION);
         alerta.setTitle("Juego completado");
         alerta.setHeaderText(null);
         alerta.setContentText("¡Felicidades! Has completado el juego.");
@@ -495,14 +495,16 @@ public class App extends Application {
         dialog.setTitle("Ingresar Nickname");
         dialog.setHeaderText(null);
         dialog.setContentText("Por favor, ingresa tu nickname:");
-        String nickname;
+
+        String nickname = null;
         List<Score> scoreList = new ArrayList<>();
         scoreList.add(score);
-        do {
-            // Obtener el nickname del usuario
+
+        // Loop hasta que se obtenga un nickname válido
+        while (nickname == null || nickname.isEmpty()) {
             Optional<String> result = dialog.showAndWait();
 
-            // Verificar si el usuario proporcionó un nickname válido
+            // Verificar si el usuario proporcionó un nickname
             if (result.isPresent()) {
                 nickname = result.get();
 
@@ -513,7 +515,7 @@ public class App extends Application {
                     UsuarioDaoImpl usuarioDao = new UsuarioDaoImpl();
 
                     // Mostrar mensaje de puntaje final y cantidad de errores y ayudas
-                    Alert alertaPuntaje = new Alert(AlertType.INFORMATION);
+                    Alert alertaPuntaje = new Alert(Alert.AlertType.INFORMATION);
                     alertaPuntaje.setTitle("Puntaje");
                     alertaPuntaje.setHeaderText(null);
                     score.calcularPuntaje();
@@ -526,19 +528,22 @@ public class App extends Application {
                     break;
                 } else {
                     // Mostrar mensaje de error si el nickname no es válido
-                    Alert alertaError = new Alert(AlertType.ERROR);
+                    Alert alertaError = new Alert(Alert.AlertType.ERROR);
                     alertaError.setTitle("Error");
                     alertaError.setHeaderText(null);
                     alertaError.setContentText("El nickname debe tener al menos 3 caracteres y no contener caracteres especiales.");
                     alertaError.showAndWait();
+                    nickname = null;  // Reset nickname to null to keep asking
                 }
             } else {
-                // Terminar el ciclo si el usuario cierra la ventana o selecciona cancelar
-                setRoot("nivelesfx");
-                break;
+                // Si el usuario cierra el diálogo, forzar el ciclo a continuar pidiendo un nickname
+                Alert alertaError = new Alert(Alert.AlertType.ERROR);
+                alertaError.setTitle("Error");
+                alertaError.setHeaderText(null);
+                alertaError.setContentText("Debe ingresar un nickname para continuar.");
+                alertaError.showAndWait();
             }
-        } while (true);
-
+        }
     }
 
     private static boolean validarNickname(String nickname) {

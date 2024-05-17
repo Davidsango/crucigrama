@@ -23,18 +23,16 @@
             <menus>
                 <Menu mnemonicParsing="false" text="Archivo">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Nuevo Juego" />
+                        <MenuItem mnemonicParsing="false" text="Nuevo Juego" onAction="#nuevoJuego"/>
                         <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" text="Cerrar" />
-                        <MenuItem mnemonicParsing="false" text="Deshacer" />
+                        <MenuItem mnemonicParsing="false" text="Cerrar" onAction="#cerrar"/>
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" text="Salir" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Ayuda">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Acerca De..." />
+                        <MenuItem fx:id="menuItemAcercaDe" mnemonicParsing="false" text="Acerca De..." />
                     </items>
                 </Menu>
             </menus>

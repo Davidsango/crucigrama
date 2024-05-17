@@ -2,14 +2,24 @@ package com.crucigramax.services;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import com.crucigramax.model.Usuario;
 import com.crucigramax.model.Score;
-import java.sql.ResultSet;
-import java.sql.Statement;
 
+/**
+ * Implementación de la interfaz UsuarioDao para interactuar con la base de datos.
+ */
 public class UsuarioDaoImpl implements UsuarioDao {
-
+    /**
+     * Inserta un nuevo usuario en la base de datos junto con sus puntajes.
+     * 
+     * @param usuario El usuario a insertar en la base de datos.
+     */
+  
     @Override
     public void insertarUsuario(Usuario usuario) {
         Connection connection = null;
@@ -87,6 +97,42 @@ public class UsuarioDaoImpl implements UsuarioDao {
                 System.out.println("Error al cerrar la conexión: " + e.getMessage());
             }
         }
+    }
+
+   /**
+     * Obtiene y ordena los puntajes de los usuarios.
+     *
+     * @return Una lista de usuarios con sus puntajes, ordenada por puntaje descendente.
+     */
+    
+    @Override
+    public List<Usuario> obtenerPuntajesOrdenados() {
+        List<Usuario> usuariosConPuntajes = new ArrayList<>();
+        String sql = "SELECT u.nickname, p.puntaje " +
+                     "FROM usuarios u " +
+                     "JOIN puntajes p ON u.id = p.usuario_id " +
+                     "ORDER BY p.puntaje DESC";
+
+        try (Connection connection = Conexion.conectar();
+             PreparedStatement statement = connection.prepareStatement(sql);
+             ResultSet resultSet = statement.executeQuery()) {
+
+            while (resultSet.next()) {
+                String nickname = resultSet.getString("nickname");
+                int puntaje = resultSet.getInt("puntaje");
+
+                Score score = new Score(0, 0, puntaje); // Crear un Score solo con el puntaje final
+                List<Score> scores = new ArrayList<>();
+                scores.add(score);
+
+                Usuario usuario = new Usuario(nickname, scores);
+                usuariosConPuntajes.add(usuario);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return usuariosConPuntajes;
     }
 
 }

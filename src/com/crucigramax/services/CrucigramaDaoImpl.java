@@ -6,7 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 /**
- * Implementación concreta de la interfaz CrucigramaDAO que proporciona métodos para interactuar con la base de datos
+ * Implementación concreta de la interfaz CrucigramaDao que proporciona métodos para interactuar con la base de datos
  * y obtener información relacionada con crucigramas.
  */
 public class CrucigramaDaoImpl extends Conexion implements CrucigramaDao{

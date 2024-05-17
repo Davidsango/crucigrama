@@ -10,7 +10,7 @@ import java.sql.SQLException;
 public class Conexion {
 
     // URL de conexión a la base de datos PostgreSQL
-    private static final String URL = "jdbc:postgresql://localhost:5432/crucigramproject";
+    private static final String URL = "jdbc:postgresql://localhost:5432/CrucigramProject";
 
     // Nombre de usuario para acceder a la base de datos
     private static final String USER = "postgres";
