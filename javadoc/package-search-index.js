@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"com.crucigramax.controllers"},{"l":"com.crucigramax.model"},{"l":"com.crucigramax.services"}];updateSearchResults();
